@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CMSWebPageCreator.Migrations
 {
-    public partial class CMSMigration : Migration
+    public partial class SQlite : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

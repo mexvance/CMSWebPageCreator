@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMSWebPageCreator.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20190410033656_CMSMigration")]
-    partial class CMSMigration
+    [Migration("20190410161837_SQlite")]
+    partial class SQlite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
