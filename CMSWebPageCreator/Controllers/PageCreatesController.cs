@@ -41,8 +41,8 @@ namespace CMSWebPageCreator.Controllers
             }
 
             ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            ViewBag.MyHeader = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            ViewBag.MyFooter = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            ViewBag.MyHeader = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            ViewBag.MyFooter = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
 
             return View(pageCreate);
         }
@@ -206,7 +206,7 @@ namespace CMSWebPageCreator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,Myheader")] PageCreate pageCreate)
+        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
         {
             //if (id != pageCreate.pageId)
             //{

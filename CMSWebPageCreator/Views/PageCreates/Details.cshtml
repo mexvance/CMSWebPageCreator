@@ -19,22 +19,58 @@
     </dl>
 </div>
 <div id="topComment">
+    @foreach (var item in ViewBag.MyHeader)
+    {
+        <div>
+            @if ((int)item.ContentType == 0)
+            {
+                <h1>@item.HeaderContent</h1>
+            }
+            @if ((int)item.ContentType == 1)
+            {
+                <p>@item.HeaderContent</p>
+            }
+            else
+            {
+                <p>We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+            }
+        </div>
+    }
+    <div>----------------------------------------------------------------------------------</div>
     @foreach (var item in ViewBag.MyBody)
     {
-    <div>
-        @if (item.ContentType.Equals(0))
-        {
-            <h1>@item.BodyContent</h1>
-        }
-        @if (item.ContentType.Equals("BodyText"))
-        {
-            <p>@item.BodyContent</p>
-        }
-        else
-        {
-            <p>We broke</p>
-        }
-    </div>
+        <div>
+            @if ((int)item.ContentType == 0)
+            {
+                <h1>@item.BodyContent</h1>
+            }
+            @if ((int)item.ContentType == 1)
+            {
+                <p>@item.BodyContent</p>
+            }
+            else
+            {
+                <p>We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+            }
+        </div>
+    }
+    <div>----------------------------------------------------------------------------------</div>
+    @foreach (var item in ViewBag.MyFooter)
+    {
+        <div>
+            @if ((int)item.ContentType == 0)
+            {
+                <h1>@item.FooterContent</h1>
+            }
+            @if ((int)item.ContentType == 1)
+            {
+                <p>@item.FooterContent</p>
+            }
+            else
+            {
+                <p>We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+            }
+        </div>
     }
 </div>
 <div>
