@@ -175,7 +175,7 @@ namespace CMSWebPageCreator.Controllers
                     myFooter.PageCreateParentId = pageCreate.pageId;
                     myFooter.FooterItem = Guid.NewGuid();
                     _context.FooterInfo.Add(myFooter);
-                    _context.Update(pageCreate);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
