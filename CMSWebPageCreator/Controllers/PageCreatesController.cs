@@ -173,7 +173,6 @@ namespace CMSWebPageCreator.Controllers
                     myHeader.PageCreateParentId = pageCreate.pageId;
                     myHeader.HeaderItem = Guid.NewGuid();
                     _context.HeaderInfo.Add(myHeader);
-                    _context.Update(pageCreate);
                     await _context.SaveChangesAsync();
     }
                 catch (DbUpdateConcurrencyException)
