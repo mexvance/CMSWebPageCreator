@@ -156,6 +156,42 @@ namespace CMSWebPageCreator.Controllers
             return View(pageCreate);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,Myheader")] PageCreate pageCreate)
+        {
+            //if (id != pageCreate.pageId)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var myHeader = pageCreate.MyHeader;
+                    myHeader.PageCreateParentId = pageCreate.pageId;
+                    myHeader.HeaderItem = Guid.NewGuid();
+                    _context.HeaderInfo.Add(myHeader);
+                    _context.Update(pageCreate);
+                    await _context.SaveChangesAsync();
+    }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PageCreateExists(pageCreate.pageId))
+                    {
+                        return NotFound();
+}
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(pageCreate);
+        }
+
         // GET: PageCreates/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
