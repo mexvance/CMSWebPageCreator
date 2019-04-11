@@ -137,7 +137,7 @@ namespace CMSWebPageCreator.Controllers
                     myBody.PageCreateParentId = pageCreate.pageId;
                     myBody.BodyItem = Guid.NewGuid();
                     _context.BodyInfo.Add(myBody);
-                    _context.Update(pageCreate);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
