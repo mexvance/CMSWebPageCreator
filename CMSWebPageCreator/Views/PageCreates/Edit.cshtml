@@ -39,6 +39,22 @@
                 </div>
             </form>
         </div>
+        <div class="form-group">
+            <form asp-action="MyFooterCreate">
+                <label asp-for="MyFooter.FooterContent" class="control-label"></label>
+                <input asp-for="MyFooter.FooterContent" class="form-control" />
+                <span asp-validation-for="MyFooter.FooterContent" class="text-danger"></span>
+
+                <label asp-for="MyFooter.ContentType" class="control-label"></label>
+                <input asp-for="MyFooter.ContentType" class="form-control" />
+                <span asp-validation-for="MyFooter.ContentType" class="text-danger"></span>
+
+                <input type="hidden" asp-for="pageId" />
+                <div class="form-group">
+                    <input type="submit" value="MyFooterCreate" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
