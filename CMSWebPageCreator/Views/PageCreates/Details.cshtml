@@ -18,6 +18,25 @@
         </dd>
     </dl>
 </div>
+<div id="topComment">
+    @foreach (var item in ViewBag.MyBody)
+    {
+    <div>
+        @if (item.ContentType.Equals(0))
+        {
+            <h1>@item.BodyContent</h1>
+        }
+        @if (item.ContentType.Equals("BodyText"))
+        {
+            <p>@item.BodyContent</p>
+        }
+        else
+        {
+            <p>We broke</p>
+        }
+    </div>
+    }
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.pageId">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -22,6 +22,7 @@ namespace CMSWebPageCreator.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.PageCreate.ToListAsync());
+
         }
 
         // GET: PageCreates/Details/5
@@ -38,6 +39,10 @@ namespace CMSWebPageCreator.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            ViewBag.MyHeader = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            ViewBag.MyFooter = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
 
             return View(pageCreate);
         }
@@ -58,9 +63,10 @@ namespace CMSWebPageCreator.Controllers
             if (ModelState.IsValid)
             {
                 pageCreate.pageId = Guid.NewGuid();
+
                 _context.Add(pageCreate);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = pageCreate.pageId });
             }
             return View(pageCreate);
         }
@@ -78,6 +84,10 @@ namespace CMSWebPageCreator.Controllers
             {
                 return NotFound();
             }
+            ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            ViewBag.MyHeader = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            ViewBag.MyFooter = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+           
             return View(pageCreate);
         }
 
