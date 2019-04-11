@@ -137,7 +137,45 @@ namespace CMSWebPageCreator.Controllers
                     myBody.PageCreateParentId = pageCreate.pageId;
                     myBody.BodyItem = Guid.NewGuid();
                     _context.BodyInfo.Add(myBody);
-                    _context.Update(pageCreate);
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PageCreateExists(pageCreate.pageId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(pageCreate);
+        }
+
+
+        //Footer added context
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MyFooterCreate(/*Guid id,*/ [Bind("pageId,Title,MyFooter")] PageCreate pageCreate)
+        {
+            //if (id != pageCreate.pageId)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var myFooter = pageCreate.MyFooter;
+                    myFooter.PageCreateParentId = pageCreate.pageId;
+                    myFooter.FooterItem = Guid.NewGuid();
+                    _context.FooterInfo.Add(myFooter);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
