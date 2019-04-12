@@ -26,13 +26,14 @@
             {
                 <h1>@item.HeaderContent</h1>
             }
-            @if ((int)item.ContentType == 1)
+            else if ((int)item.ContentType == 1)
             {
                 <p>@item.HeaderContent</p>
             }
             else
             {
-                <p>We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                
+                <p>@item.HeaderContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
             }
         </div>
     }
@@ -44,13 +45,13 @@
             {
                 <h1>@item.BodyContent</h1>
             }
-            @if ((int)item.ContentType == 1)
+            else if ((int)item.ContentType == 1)
             {
                 <p>@item.BodyContent</p>
             }
             else
             {
-                <p>We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                <p>@item.BodyContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
             }
         </div>
     }
@@ -62,13 +63,13 @@
             {
                 <h1>@item.FooterContent</h1>
             }
-            @if ((int)item.ContentType == 1)
+            else if ((int)item.ContentType == 1)
             {
                 <p>@item.FooterContent</p>
             }
             else
             {
-                <p>We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                <p>@item.FooterContenti - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
             }
         </div>
     }

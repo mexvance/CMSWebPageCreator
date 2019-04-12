@@ -42,6 +42,31 @@
                     <input type="submit" value="MyHeaderCreate" class="btn btn-primary" />
                 </div>
             </form>
+            <!--<form asp-action="DeleteHeaderItem">-->
+                <div>
+                    @foreach (var item in ViewBag.MyHeader)
+                    {
+                        <div>
+                            @if ((int)item.ContentType == 0)
+                            {
+                                <h1>@item.HeaderContent</h1>
+                            }
+                            else if ((int)item.ContentType == 1)
+                            {
+                                <p>@item.HeaderContent</p>
+                            }
+                            else
+                            {
+
+                                <p>@item.HeaderContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                            }
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="DeleteHeaderItem" class="btn btn-primary" />
+                        </div>
+                    }
+                </div>
+            <!--</form>-->
         </div>
         --------------------------------------------------------------------------------------------------------------------------------
         <div class="form-group">

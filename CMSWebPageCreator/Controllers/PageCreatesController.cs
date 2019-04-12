@@ -239,6 +239,16 @@ namespace CMSWebPageCreator.Controllers
             return View(pageCreate);
         }
 
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var headerInfo = await _context.HeaderInfo.FindAsync(id);
+            _context.HeaderInfo.Remove(headerInfo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: PageCreates/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -260,12 +270,12 @@ namespace CMSWebPageCreator.Controllers
         // POST: PageCreates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteHeaderItem(Guid id, [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
         {
-            var pageCreate = await _context.PageCreate.FindAsync(id);
-            _context.PageCreate.Remove(pageCreate);
+            var headerItem = await _context.HeaderInfo.FindAsync(pageCreate.MyHeader.HeaderItem);
+            _context.HeaderInfo.Remove(headerItem);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Edit", new { id = pageCreate.pageId });
         }
 
         private bool PageCreateExists(Guid id)
