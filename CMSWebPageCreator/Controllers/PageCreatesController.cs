@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CMSWebPageCreator.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace CMSWebPageCreator.Controllers
 {
@@ -271,6 +273,32 @@ namespace CMSWebPageCreator.Controllers
         private bool PageCreateExists(Guid id)
         {
             return _context.PageCreate.Any(e => e.pageId == id);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public class ManageUsersController : Controller
+        {
+            private readonly UserManager<IdentityUser>
+            _userManager;
+            public ManageUsersController(
+            UserManager<IdentityUser> userManager)
+            {
+                _userManager = userManager;
+            }
+            public async Task<IActionResult> Index()
+            {
+                var admins = (await _userManager
+                .GetUsersInRoleAsync("Administrator"))
+                .ToArray();
+                var everyone = await _userManager.Users
+                .ToArrayAsync();
+                var model = new ManageUsers 
+                {
+                    Administrators = admins,
+                    Everyone = everyone
+                };
+                return View(model);
+            }
         }
     }
 }
