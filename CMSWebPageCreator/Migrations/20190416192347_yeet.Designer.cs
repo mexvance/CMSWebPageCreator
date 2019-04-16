@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMSWebPageCreator.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20190416160927_cms")]
-    partial class cms
+    [Migration("20190416192347_yeet")]
+    partial class yeet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,6 +79,8 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid?>("MyFooterFooterItem");
 
+                    b.Property<Guid?>("MyHeaderHeaderItem");
+
                     b.Property<string>("Title");
 
                     b.HasKey("pageId");
@@ -86,6 +88,8 @@ namespace CMSWebPageCreator.Migrations
                     b.HasIndex("MyBodyBodyItem");
 
                     b.HasIndex("MyFooterFooterItem");
+
+                    b.HasIndex("MyHeaderHeaderItem");
 
                     b.ToTable("PageCreate");
                 });
@@ -106,6 +110,10 @@ namespace CMSWebPageCreator.Migrations
                     b.HasOne("CMSWebPageCreator.Models.FooterInfo", "MyFooter")
                         .WithMany()
                         .HasForeignKey("MyFooterFooterItem");
+
+                    b.HasOne("CMSWebPageCreator.Models.HeaderInfo", "MyHeader")
+                        .WithMany()
+                        .HasForeignKey("MyHeaderHeaderItem");
                 });
 #pragma warning restore 612, 618
         }

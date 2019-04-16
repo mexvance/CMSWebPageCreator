@@ -28,13 +28,13 @@
             <h1>Header Edit</h1>
             <form asp-action="MyHeaderCreate">
                 <div>
-                    <label asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().HeaderContent" class="control-label"></label>
-                    <input asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().HeaderContent" class="form-control" />
-                    <span asp-validation-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().HeaderContent" class="text-danger"></span>
+                    <label asp-for="MyHeader.HeaderContent" class="control-label"></label>
+                    <input asp-for="MyHeader.HeaderContent" class="form-control" />
+                    <span asp-validation-for="MyHeader.HeaderContent" class="text-danger"></span>
 
-                    <label asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().ContentType" class="control-label"></label>
-                    <input asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().ContentType" class="form-control" />
-                    <span asp-validation-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().ContentType" class="text-danger"></span>
+                    <label asp-for="MyHeader.ContentType" class="control-label"></label>
+                    <input asp-for="MyHeader.ContentType" class="form-control" />
+                    <span asp-validation-for="MyHeader.ContentType" class="text-danger"></span>
 
                     <input type="hidden" asp-for="pageId" />
                 </div>

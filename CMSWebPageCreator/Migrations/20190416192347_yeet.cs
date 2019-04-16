@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CMSWebPageCreator.Migrations
 {
-    public partial class cms : Migration
+    public partial class yeet : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,8 @@ namespace CMSWebPageCreator.Migrations
                     pageId = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     MyBodyBodyItem = table.Column<Guid>(nullable: true),
-                    MyFooterFooterItem = table.Column<Guid>(nullable: true)
+                    MyFooterFooterItem = table.Column<Guid>(nullable: true),
+                    MyHeaderHeaderItem = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,12 +97,26 @@ namespace CMSWebPageCreator.Migrations
                 name: "IX_PageCreate_MyFooterFooterItem",
                 table: "PageCreate",
                 column: "MyFooterFooterItem");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PageCreate_MyHeaderHeaderItem",
+                table: "PageCreate",
+                column: "MyHeaderHeaderItem");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_PageCreate_HeaderInfo_MyHeaderHeaderItem",
+                table: "PageCreate",
+                column: "MyHeaderHeaderItem",
+                principalTable: "HeaderInfo",
+                principalColumn: "HeaderItem",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "HeaderInfo");
+            migrationBuilder.DropForeignKey(
+                name: "FK_HeaderInfo_PageCreate_PageCreatepageId",
+                table: "HeaderInfo");
 
             migrationBuilder.DropTable(
                 name: "PageCreate");
@@ -111,6 +126,9 @@ namespace CMSWebPageCreator.Migrations
 
             migrationBuilder.DropTable(
                 name: "FooterInfo");
+
+            migrationBuilder.DropTable(
+                name: "HeaderInfo");
         }
     }
 }
