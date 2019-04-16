@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CMSWebPageCreator.Migrations
 {
-    public partial class sqlite : Migration
+    public partial class cms : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,26 +36,11 @@ namespace CMSWebPageCreator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HeaderInfo",
-                columns: table => new
-                {
-                    HeaderItem = table.Column<Guid>(nullable: false),
-                    PageCreateParentId = table.Column<Guid>(nullable: false),
-                    HeaderContent = table.Column<string>(nullable: true),
-                    ContentType = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HeaderInfo", x => x.HeaderItem);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PageCreate",
                 columns: table => new
                 {
                     pageId = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    MyHeaderHeaderItem = table.Column<Guid>(nullable: true),
                     MyBodyBodyItem = table.Column<Guid>(nullable: true),
                     MyFooterFooterItem = table.Column<Guid>(nullable: true)
                 },
@@ -74,13 +59,33 @@ namespace CMSWebPageCreator.Migrations
                         principalTable: "FooterInfo",
                         principalColumn: "FooterItem",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HeaderInfo",
+                columns: table => new
+                {
+                    HeaderItem = table.Column<Guid>(nullable: false),
+                    PageCreateParentId = table.Column<Guid>(nullable: false),
+                    HeaderContent = table.Column<string>(nullable: true),
+                    ContentType = table.Column<int>(nullable: false),
+                    PageCreatepageId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HeaderInfo", x => x.HeaderItem);
                     table.ForeignKey(
-                        name: "FK_PageCreate_HeaderInfo_MyHeaderHeaderItem",
-                        column: x => x.MyHeaderHeaderItem,
-                        principalTable: "HeaderInfo",
-                        principalColumn: "HeaderItem",
+                        name: "FK_HeaderInfo_PageCreate_PageCreatepageId",
+                        column: x => x.PageCreatepageId,
+                        principalTable: "PageCreate",
+                        principalColumn: "pageId",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HeaderInfo_PageCreatepageId",
+                table: "HeaderInfo",
+                column: "PageCreatepageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PageCreate_MyBodyBodyItem",
@@ -91,15 +96,13 @@ namespace CMSWebPageCreator.Migrations
                 name: "IX_PageCreate_MyFooterFooterItem",
                 table: "PageCreate",
                 column: "MyFooterFooterItem");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PageCreate_MyHeaderHeaderItem",
-                table: "PageCreate",
-                column: "MyHeaderHeaderItem");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "HeaderInfo");
+
             migrationBuilder.DropTable(
                 name: "PageCreate");
 
@@ -108,9 +111,6 @@ namespace CMSWebPageCreator.Migrations
 
             migrationBuilder.DropTable(
                 name: "FooterInfo");
-
-            migrationBuilder.DropTable(
-                name: "HeaderInfo");
         }
     }
 }

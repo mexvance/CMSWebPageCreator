@@ -42,7 +42,7 @@ namespace CMSWebPageCreator.Controllers
 
             ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
             ViewBag.MyHeader = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            ViewBag.MyFooter = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
 
             return View(pageCreate);
         }
@@ -85,8 +85,9 @@ namespace CMSWebPageCreator.Controllers
                 return NotFound();
             }
             ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            ViewBag.MyHeader = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            ViewBag.MyFooter = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            pageCreate.Headers.Add(new HeaderInfo());
+            ViewBag.MyFooter = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
            
             return View(pageCreate);
         }
@@ -130,6 +131,44 @@ namespace CMSWebPageCreator.Controllers
         //Hey Add this function from here to here, that being the end of this function. Thanks
         //Also do this for Header Footer, 
         //Other things to look at (on the edit view, we should load a dropdown of the ContentType )
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,Headers")] PageCreate pageCreate)
+        {
+            //if (id != pageCreate.pageId)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    foreach (var myHeader in pageCreate.Headers.Where(h => h.HeaderItem == null))
+                    {
+                        myHeader.PageCreateParentId = pageCreate.pageId;
+                        myHeader.HeaderItem = Guid.NewGuid();
+                        _context.HeaderInfo.Add(myHeader);
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PageCreateExists(pageCreate.pageId))
+                    {
+                        return NotFound();
+}
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(pageCreate);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MyBodyCreate(/*Guid id,*/ [Bind("pageId,Title,MyBody")] PageCreate pageCreate)
@@ -203,42 +242,6 @@ namespace CMSWebPageCreator.Controllers
             }
             return View(pageCreate);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
-        {
-            //if (id != pageCreate.pageId)
-            //{
-            //    return NotFound();
-            //}
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var myHeader = pageCreate.MyHeader;
-                    myHeader.PageCreateParentId = pageCreate.pageId;
-                    myHeader.HeaderItem = Guid.NewGuid();
-                    _context.HeaderInfo.Add(myHeader);
-                    await _context.SaveChangesAsync();
-    }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PageCreateExists(pageCreate.pageId))
-                    {
-                        return NotFound();
-}
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(pageCreate);
-        }
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -272,8 +275,8 @@ namespace CMSWebPageCreator.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteHeaderItem(Guid id, [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
         {
-            var headerItem = await _context.HeaderInfo.FindAsync(pageCreate.MyHeader.HeaderItem);
-            _context.HeaderInfo.Remove(headerItem);
+            //var headerItem = await _context.HeaderInfo.FindAsync(pageCreate.Headers);
+            //_context.HeaderInfo.Remove(headerItem);
             await _context.SaveChangesAsync();
             return RedirectToAction("Edit", new { id = pageCreate.pageId });
         }

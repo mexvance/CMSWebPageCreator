@@ -28,13 +28,13 @@
             <h1>Header Edit</h1>
             <form asp-action="MyHeaderCreate">
                 <div>
-                    <label asp-for="MyHeader.HeaderContent" class="control-label"></label>
-                    <input asp-for="MyHeader.HeaderContent" class="form-control" />
-                    <span asp-validation-for="MyHeader.HeaderContent" class="text-danger"></span>
+                    <label asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().HeaderContent" class="control-label"></label>
+                    <input asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().HeaderContent" class="form-control" />
+                    <span asp-validation-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().HeaderContent" class="text-danger"></span>
 
-                    <label asp-for="MyHeader.ContentType" class="control-label"></label>
-                    <input asp-for="MyHeader.ContentType" class="form-control" />
-                    <span asp-validation-for="MyHeader.ContentType" class="text-danger"></span>
+                    <label asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().ContentType" class="control-label"></label>
+                    <input asp-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().ContentType" class="form-control" />
+                    <span asp-validation-for="Headers.Where(h => h.HeaderItem == Guid.Empty).First().ContentType" class="text-danger"></span>
 
                     <input type="hidden" asp-for="pageId" />
                 </div>
@@ -42,31 +42,28 @@
                     <input type="submit" value="MyHeaderCreate" class="btn btn-primary" />
                 </div>
             </form>
-            <!--<form asp-action="DeleteHeaderItem">-->
-                <div>
-                    @foreach (var item in ViewBag.MyHeader)
+            <form asp-action="DeleteHeaderItem">
+                <div class="form-indented">
+                    <div><h1>Existing Header Items</h1></div>
+                    @foreach (var item in Model.Headers.Where(h => h.HeaderItem != Guid.Empty))
                     {
                         <div>
-                            @if ((int)item.ContentType == 0)
-                            {
-                                <h1>@item.HeaderContent</h1>
-                            }
-                            else if ((int)item.ContentType == 1)
-                            {
-                                <p>@item.HeaderContent</p>
-                            }
-                            else
-                            {
+                            <label asp-for="@item.HeaderContent" class="control-label"></label>
+                            <input asp-for="@item.HeaderContent" class="form-control" />
+                            <span asp-validation-for="@item.HeaderContent" class="text-danger"></span>
 
-                                <p>@item.HeaderContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
-                            }
+                            <label asp-for="@item.ContentType" class="control-label"></label>
+                            <input asp-for="@item.ContentType" class="form-control" />
+                            <span asp-validation-for="@item.ContentType" class="text-danger"></span>
+
+                            <input type="hidden" asp-for="pageId" />
                         </div>
                         <div class="form-group">
                             <input type="submit" value="DeleteHeaderItem" class="btn btn-primary" />
                         </div>
                     }
                 </div>
-            <!--</form>-->
+            </form>
         </div>
         --------------------------------------------------------------------------------------------------------------------------------
         <div class="form-group">

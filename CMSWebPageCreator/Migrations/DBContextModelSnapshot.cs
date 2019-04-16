@@ -59,7 +59,11 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid>("PageCreateParentId");
 
+                    b.Property<Guid?>("PageCreatepageId");
+
                     b.HasKey("HeaderItem");
+
+                    b.HasIndex("PageCreatepageId");
 
                     b.ToTable("HeaderInfo");
                 });
@@ -73,8 +77,6 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid?>("MyFooterFooterItem");
 
-                    b.Property<Guid?>("MyHeaderHeaderItem");
-
                     b.Property<string>("Title");
 
                     b.HasKey("pageId");
@@ -83,9 +85,14 @@ namespace CMSWebPageCreator.Migrations
 
                     b.HasIndex("MyFooterFooterItem");
 
-                    b.HasIndex("MyHeaderHeaderItem");
-
                     b.ToTable("PageCreate");
+                });
+
+            modelBuilder.Entity("CMSWebPageCreator.Models.HeaderInfo", b =>
+                {
+                    b.HasOne("CMSWebPageCreator.Models.PageCreate")
+                        .WithMany("Headers")
+                        .HasForeignKey("PageCreatepageId");
                 });
 
             modelBuilder.Entity("CMSWebPageCreator.Models.PageCreate", b =>
@@ -97,10 +104,6 @@ namespace CMSWebPageCreator.Migrations
                     b.HasOne("CMSWebPageCreator.Models.FooterInfo", "MyFooter")
                         .WithMany()
                         .HasForeignKey("MyFooterFooterItem");
-
-                    b.HasOne("CMSWebPageCreator.Models.HeaderInfo", "MyHeader")
-                        .WithMany()
-                        .HasForeignKey("MyHeaderHeaderItem");
                 });
 #pragma warning restore 612, 618
         }

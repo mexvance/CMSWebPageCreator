@@ -8,10 +8,14 @@ namespace CMSWebPageCreator.Models
 {
     public class PageCreate
     {
+        public PageCreate()
+        {
+            Headers = new List<HeaderInfo>();
+        }
         [Key]
         public Guid pageId { get; set; }
         public string Title { get; set; }
-        public HeaderInfo MyHeader { get; set; }
+        public List<HeaderInfo> Headers { get; set; }
         public BodyInfo MyBody { get; set; }
         public FooterInfo MyFooter { get; set; }
     }
