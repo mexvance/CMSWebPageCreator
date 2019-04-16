@@ -161,7 +161,7 @@ namespace CMSWebPageCreator.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = pageCreate.pageId });
             }
             return View(pageCreate);
         }
@@ -199,7 +199,7 @@ namespace CMSWebPageCreator.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = pageCreate.pageId });
             }
             return View(pageCreate);
         }
@@ -234,7 +234,7 @@ namespace CMSWebPageCreator.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = pageCreate.pageId });
             }
             return View(pageCreate);
         }

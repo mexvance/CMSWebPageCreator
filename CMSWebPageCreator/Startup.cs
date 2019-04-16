@@ -13,7 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using CMSWebPageCreator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Mvc.ApplicationModels; 
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+
+
 
 namespace CMSWebPageCreator
 {
@@ -36,7 +38,7 @@ namespace CMSWebPageCreator
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<DbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
 
@@ -48,7 +50,7 @@ namespace CMSWebPageCreator
             services.AddIdentity<IdentityUser, IdentityRole>()
                .AddDefaultTokenProviders()
                .AddDefaultUI(UIFramework.Bootstrap4)
-               .AddEntityFrameworkStores<ApplicationDbContext>();
+               .AddEntityFrameworkStores<DbContext>();
 
             services.AddAuthorization(options =>
             {
@@ -79,7 +81,7 @@ namespace CMSWebPageCreator
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-            Identity.SeedData(userManager, roleManager);
+            //Identity.SeedData(userManager, roleManager);
 
             app.UseMvc(routes =>
             {
