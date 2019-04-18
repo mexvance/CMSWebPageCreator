@@ -6,23 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CMSWebPageCreator.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMSWebPageCreator.Controllers
 {
     public class PageCreatesController : Controller
     {
         private readonly DBContext _context;
+        private UserManager<IdentityUser> _userManager;
 
-        public PageCreatesController(DBContext context)
+        public PageCreatesController(DBContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: PageCreates
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(User);
             return View(await _context.PageCreate.ToListAsync());
 
         }
@@ -163,7 +166,7 @@ namespace CMSWebPageCreator.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = pageCreate.pageId });
             }
             return View(pageCreate);
         }
@@ -201,7 +204,7 @@ namespace CMSWebPageCreator.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = pageCreate.pageId });
             }
             return View(pageCreate);
         }
@@ -236,7 +239,7 @@ namespace CMSWebPageCreator.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = pageCreate.pageId });
             }
             return View(pageCreate);
         }
@@ -273,32 +276,6 @@ namespace CMSWebPageCreator.Controllers
         private bool PageCreateExists(Guid id)
         {
             return _context.PageCreate.Any(e => e.pageId == id);
-        }
-
-        [Authorize(Roles = "Administrator")]
-        public class ManageUsersController : Controller
-        {
-            private readonly UserManager<IdentityUser>
-            _userManager;
-            public ManageUsersController(
-            UserManager<IdentityUser> userManager)
-            {
-                _userManager = userManager;
-            }
-            public async Task<IActionResult> Index()
-            {
-                var admins = (await _userManager
-                .GetUsersInRoleAsync("Administrator"))
-                .ToArray();
-                var everyone = await _userManager.Users
-                .ToArrayAsync();
-                var model = new ManageUsers 
-                {
-                    Administrators = admins,
-                    Everyone = everyone
-                };
-                return View(model);
-            }
         }
     }
 }
