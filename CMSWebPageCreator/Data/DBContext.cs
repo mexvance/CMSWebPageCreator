@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CMSWebPageCreator.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CMSWebPageCreator.Models
 {
-    public class DBContext : DbContext
+    public class DBContext : IdentityDbContext
     {
         public DBContext (DbContextOptions<DBContext> options)
             : base(options)
@@ -21,7 +22,5 @@ namespace CMSWebPageCreator.Models
         public DbSet<CMSWebPageCreator.Models.HeaderInfo> HeaderInfo { get; set; }
 
         public DbSet<CMSWebPageCreator.Models.PageCreate> PageCreate { get; set; }
-
-        public DbSet<MyIdentity> MyIdentities { get; set; }
     }
 }
