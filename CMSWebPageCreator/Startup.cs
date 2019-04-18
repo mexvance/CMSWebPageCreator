@@ -38,9 +38,9 @@ namespace CMSWebPageCreator
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<DbContext>(options =>
-               options.UseSqlServer(
-                   Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<DbContext>(options =>
+            //   options.UseSqlServer(
+            //       Configuration.GetConnectionString("DefaultConnection")));
 
            
 
@@ -50,20 +50,20 @@ namespace CMSWebPageCreator
             services.AddIdentity<IdentityUser, IdentityRole>()
                .AddDefaultTokenProviders()
                .AddDefaultUI(UIFramework.Bootstrap4)
-               .AddEntityFrameworkStores<DbContext>();
+               .AddEntityFrameworkStores<DBContext>();
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(Identity.Policy_Add, policy => policy.RequireRole(Identity.AdminRoleName, Identity.EditorRoleName, Identity.ContributorRoleName));
-                options.AddPolicy(Identity.Policy_Edit, policy => policy.RequireRole(Identity.AdminRoleName, Identity.EditorRoleName));
-                options.AddPolicy(Identity.Policy_Delete, policy => policy.RequireRole(Identity.AdminRoleName));
+                options.AddPolicy(MyIdentity.Policy_Add, policy => policy.RequireRole(MyIdentity.AdminRoleName, MyIdentity.EditorRoleName, MyIdentity.ContributorRoleName));
+                options.AddPolicy(MyIdentity.Policy_Edit, policy => policy.RequireRole(MyIdentity.AdminRoleName, MyIdentity.EditorRoleName));
+                options.AddPolicy(MyIdentity.Policy_Delete, policy => policy.RequireRole(MyIdentity.AdminRoleName));
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -81,7 +81,7 @@ namespace CMSWebPageCreator
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-            //Identity.SeedData(userManager, roleManager);
+            MyIdentity.SeedData(userManager, roleManager);
 
             app.UseMvc(routes =>
             {

@@ -21,5 +21,7 @@ namespace CMSWebPageCreator.Models
         public DbSet<CMSWebPageCreator.Models.HeaderInfo> HeaderInfo { get; set; }
 
         public DbSet<CMSWebPageCreator.Models.PageCreate> PageCreate { get; set; }
+
+        public DbSet<MyIdentity> MyIdentities { get; set; }
     }
 }

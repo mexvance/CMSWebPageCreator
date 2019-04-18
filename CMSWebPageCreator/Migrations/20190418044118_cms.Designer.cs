@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMSWebPageCreator.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20190410180659_sqlite")]
-    partial class sqlite
+    [Migration("20190418044118_cms")]
+    partial class cms
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

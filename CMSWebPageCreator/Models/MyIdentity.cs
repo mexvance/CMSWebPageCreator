@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CMSWebPageCreator
 {
-    public class Identity
+    public class MyIdentity
     {
         public const string AdminRoleName = "Admin";
         public const string EditorRoleName = "Editor";
