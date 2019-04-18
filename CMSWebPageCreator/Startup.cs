@@ -11,6 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using CMSWebPageCreator.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+
+
 
 namespace CMSWebPageCreator
 {
@@ -33,15 +38,32 @@ namespace CMSWebPageCreator
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //services.AddDbContext<DbContext>(options =>
+            //   options.UseSqlServer(
+            //       Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+           
 
             services.AddDbContext<DBContext>(options =>
                     options.UseSqlite(Configuration.GetConnectionString("DBContext")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+               .AddDefaultTokenProviders()
+               .AddDefaultUI(UIFramework.Bootstrap4)
+               .AddEntityFrameworkStores<DBContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(MyIdentity.Policy_Add, policy => policy.RequireRole(MyIdentity.AdminRoleName, MyIdentity.EditorRoleName, MyIdentity.ContributorRoleName));
+                options.AddPolicy(MyIdentity.Policy_Edit, policy => policy.RequireRole(MyIdentity.AdminRoleName, MyIdentity.EditorRoleName));
+                options.AddPolicy(MyIdentity.Policy_Delete, policy => policy.RequireRole(MyIdentity.AdminRoleName));
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +79,9 @@ namespace CMSWebPageCreator
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
+            MyIdentity.SeedData(userManager, roleManager);
 
             app.UseMvc(routes =>
             {
