@@ -14,6 +14,7 @@ using CMSWebPageCreator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using CMSWebPageCreator.Hubs;
 
 
 
@@ -60,6 +61,8 @@ namespace CMSWebPageCreator
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +86,10 @@ namespace CMSWebPageCreator
             app.UseAuthentication();
             MyIdentity.SeedData(userManager, roleManager);
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
