@@ -18,7 +18,7 @@ namespace CMSWebPageCreator.Migrations
 
             modelBuilder.Entity("CMSWebPageCreator.Models.BodyInfo", b =>
                 {
-                    b.Property<Guid>("BodyItem")
+                    b.Property<Guid>("BodyId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("BodyContent");
@@ -29,7 +29,7 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid?>("PageCreatepageId");
 
-                    b.HasKey("BodyItem");
+                    b.HasKey("BodyId");
 
                     b.HasIndex("PageCreatepageId");
 
@@ -38,7 +38,7 @@ namespace CMSWebPageCreator.Migrations
 
             modelBuilder.Entity("CMSWebPageCreator.Models.FooterInfo", b =>
                 {
-                    b.Property<Guid>("FooterItem")
+                    b.Property<Guid>("FooterId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ContentType");
@@ -49,7 +49,7 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid?>("PageCreatepageId");
 
-                    b.HasKey("FooterItem");
+                    b.HasKey("FooterId");
 
                     b.HasIndex("PageCreatepageId");
 
@@ -58,7 +58,7 @@ namespace CMSWebPageCreator.Migrations
 
             modelBuilder.Entity("CMSWebPageCreator.Models.HeaderInfo", b =>
                 {
-                    b.Property<Guid>("HeaderItem")
+                    b.Property<Guid>("HeaderId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ContentType");
@@ -69,7 +69,7 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid?>("PageCreatepageId");
 
-                    b.HasKey("HeaderItem");
+                    b.HasKey("HeaderId");
 
                     b.HasIndex("PageCreatepageId");
 

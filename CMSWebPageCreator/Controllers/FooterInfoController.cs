@@ -33,7 +33,7 @@ namespace CMSWebPageCreator.Controllers
             }
 
             var footerInfo = await _context.FooterInfo
-                .FirstOrDefaultAsync(m => m.FooterItem == id);
+                .FirstOrDefaultAsync(m => m.FooterId == id);
             if (footerInfo == null)
             {
                 return NotFound();
@@ -53,11 +53,11 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PageCreateParentId,FooterItem,FooterContent,ContentType")] FooterInfo footerInfo)
+        public async Task<IActionResult> Create([Bind("PageCreateParentId,FooterId,FooterContent,ContentType")] FooterInfo footerInfo)
         {
             if (ModelState.IsValid)
             {
-                footerInfo.FooterItem = Guid.NewGuid();
+                footerInfo.FooterId = Guid.NewGuid();
                 _context.Add(footerInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,9 +86,9 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PageCreateParentId,FooterItem,FooterContent,ContentType")] FooterInfo footerInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PageCreateParentId,FooterId,FooterContent,ContentType")] FooterInfo footerInfo)
         {
-            if (id != footerInfo.FooterItem)
+            if (id != footerInfo.FooterId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace CMSWebPageCreator.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FooterInfoExists(footerInfo.FooterItem))
+                    if (!FooterInfoExists(footerInfo.FooterId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace CMSWebPageCreator.Controllers
             }
 
             var footerInfo = await _context.FooterInfo
-                .FirstOrDefaultAsync(m => m.FooterItem == id);
+                .FirstOrDefaultAsync(m => m.FooterId == id);
             if (footerInfo == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace CMSWebPageCreator.Controllers
 
         private bool FooterInfoExists(Guid id)
         {
-            return _context.FooterInfo.Any(e => e.FooterItem == id);
+            return _context.FooterInfo.Any(e => e.FooterId == id);
         }
     }
 }

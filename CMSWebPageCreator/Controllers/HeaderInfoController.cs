@@ -33,7 +33,7 @@ namespace CMSWebPageCreator.Controllers
             }
 
             var headerInfo = await _context.HeaderInfo
-                .FirstOrDefaultAsync(m => m.HeaderItem == id);
+                .FirstOrDefaultAsync(m => m.HeaderId == id);
             if (headerInfo == null)
             {
                 return NotFound();
@@ -53,11 +53,11 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PageCreateParentId,HeaderItem,HeaderContent,ContentType")] HeaderInfo headerInfo)
+        public async Task<IActionResult> Create([Bind("PageCreateParentId,HeaderId,HeaderContent,ContentType")] HeaderInfo headerInfo)
         {
             if (ModelState.IsValid)
             {
-                headerInfo.HeaderItem = Guid.NewGuid();
+                headerInfo.HeaderId = Guid.NewGuid();
                 _context.Add(headerInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,9 +86,9 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PageCreateParentId,HeaderItem,HeaderContent,ContentType")] HeaderInfo headerInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PageCreateParentId,HeaderId,HeaderContent,ContentType")] HeaderInfo headerInfo)
         {
-            if (id != headerInfo.HeaderItem)
+            if (id != headerInfo.HeaderId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace CMSWebPageCreator.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HeaderInfoExists(headerInfo.HeaderItem))
+                    if (!HeaderInfoExists(headerInfo.HeaderId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace CMSWebPageCreator.Controllers
             }
 
             var headerInfo = await _context.HeaderInfo
-                .FirstOrDefaultAsync(m => m.HeaderItem == id);
+                .FirstOrDefaultAsync(m => m.HeaderId == id);
             if (headerInfo == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace CMSWebPageCreator.Controllers
 
         private bool HeaderInfoExists(Guid id)
         {
-            return _context.HeaderInfo.Any(e => e.HeaderItem == id);
+            return _context.HeaderInfo.Any(e => e.HeaderId == id);
         }
     }
 }

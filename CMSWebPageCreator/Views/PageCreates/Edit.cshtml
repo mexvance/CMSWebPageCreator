@@ -9,7 +9,7 @@
 <h4>PageCreate</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    @*<div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="pageId" />
@@ -45,7 +45,7 @@
             <form asp-action="DeleteHeaderItem">
                 <div class="form-indented">
                     <div><h1>Existing Header Items</h1></div>
-                    @foreach (var item in Model.Headers.Where(h => h.HeaderItem != Guid.Empty))
+                    @foreach (var item in Model.Headers.Where(h => h.HeaderId != Guid.Empty))
                     {
                         <div>
                             <label asp-for="@item.HeaderContent" class="control-label"></label>
@@ -105,7 +105,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div>*@
 </div>
 
 <div>

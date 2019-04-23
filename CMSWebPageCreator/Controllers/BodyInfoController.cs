@@ -33,7 +33,7 @@ namespace CMSWebPageCreator.Controllers
             }
 
             var bodyInfo = await _context.BodyInfo
-                .FirstOrDefaultAsync(m => m.BodyItem == id);
+                .FirstOrDefaultAsync(m => m.BodyId == id);
             if (bodyInfo == null)
             {
                 return NotFound();
@@ -53,11 +53,11 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PageCreateParentId,BodyItem,BodyContent,ContentType")] BodyInfo bodyInfo)
+        public async Task<IActionResult> Create([Bind("PageCreateParentId,BodyId,BodyContent,ContentType")] BodyInfo bodyInfo)
         {
             if (ModelState.IsValid)
             {
-                bodyInfo.BodyItem = Guid.NewGuid();
+                bodyInfo.BodyId = Guid.NewGuid();
                 _context.Add(bodyInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,9 +86,9 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PageCreateParentId,BodyItem,BodyContent,ContentType")] BodyInfo bodyInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PageCreateParentId,BodyId,BodyContent,ContentType")] BodyInfo bodyInfo)
         {
-            if (id != bodyInfo.BodyItem)
+            if (id != bodyInfo.BodyId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace CMSWebPageCreator.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BodyInfoExists(bodyInfo.BodyItem))
+                    if (!BodyInfoExists(bodyInfo.BodyId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace CMSWebPageCreator.Controllers
             }
 
             var bodyInfo = await _context.BodyInfo
-                .FirstOrDefaultAsync(m => m.BodyItem == id);
+                .FirstOrDefaultAsync(m => m.BodyId == id);
             if (bodyInfo == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace CMSWebPageCreator.Controllers
 
         private bool BodyInfoExists(Guid id)
         {
-            return _context.BodyInfo.Any(e => e.BodyItem == id);
+            return _context.BodyInfo.Any(e => e.BodyId == id);
         }
     }
 }

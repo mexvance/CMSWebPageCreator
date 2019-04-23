@@ -150,10 +150,10 @@ namespace CMSWebPageCreator.Controllers
 //            {
 //                try
 //                {
-//                    foreach (var myHeader in pageCreate.Headers.Where(h => h.HeaderItem == null))
+//                    foreach (var myHeader in pageCreate.Headers.Where(h => h.HeaderId == null))
 //                    {
 //                        myHeader.PageCreateParentId = pageCreate.pageId;
-//                        myHeader.HeaderItem = Guid.NewGuid();
+//                        myHeader.HeaderId = Guid.NewGuid();
 //                        _context.HeaderInfo.Add(myHeader);
 //                    }
 //                    await _context.SaveChangesAsync();
@@ -189,7 +189,7 @@ namespace CMSWebPageCreator.Controllers
 //                {
 //                    var myBody = pageCreate.MyBody;
 //                    myBody.PageCreateParentId = pageCreate.pageId;
-//                    myBody.BodyItem = Guid.NewGuid();
+//                    myBody.BodyId = Guid.NewGuid();
 //                    _context.BodyInfo.Add(myBody);
 
 //                    await _context.SaveChangesAsync();
@@ -227,7 +227,7 @@ namespace CMSWebPageCreator.Controllers
 //                {
 //                    var myFooter = pageCreate.MyFooter;
 //                    myFooter.PageCreateParentId = pageCreate.pageId;
-//                    myFooter.FooterItem = Guid.NewGuid();
+//                    myFooter.FooterId = Guid.NewGuid();
 //                    _context.FooterInfo.Add(myFooter);
 
 //                    await _context.SaveChangesAsync();

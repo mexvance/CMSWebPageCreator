@@ -37,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.ContentType)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.BodyItem">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BodyItem">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BodyItem">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.BodyId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BodyId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BodyId">Delete</a>
             </td>
         </tr>
 }
