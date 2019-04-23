@@ -139,7 +139,7 @@ namespace CMSWebPageCreator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
+        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,Headers")] PageCreate pageCreate)
         {
             //if (id != pageCreate.pageId)
             //{
