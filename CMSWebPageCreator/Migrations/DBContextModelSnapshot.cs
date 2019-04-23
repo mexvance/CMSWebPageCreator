@@ -81,21 +81,9 @@ namespace CMSWebPageCreator.Migrations
                     b.Property<Guid>("pageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("MyBodyBodyItem");
-
-                    b.Property<Guid?>("MyFooterFooterItem");
-
-                    b.Property<Guid?>("MyHeaderHeaderItem");
-
                     b.Property<string>("Title");
 
                     b.HasKey("pageId");
-
-                    b.HasIndex("MyBodyBodyItem");
-
-                    b.HasIndex("MyFooterFooterItem");
-
-                    b.HasIndex("MyHeaderHeaderItem");
 
                     b.ToTable("PageCreate");
                 });
@@ -276,21 +264,6 @@ namespace CMSWebPageCreator.Migrations
                     b.HasOne("CMSWebPageCreator.Models.PageCreate")
                         .WithMany("Headers")
                         .HasForeignKey("PageCreatepageId");
-                });
-
-            modelBuilder.Entity("CMSWebPageCreator.Models.PageCreate", b =>
-                {
-                    b.HasOne("CMSWebPageCreator.Models.BodyInfo", "MyBody")
-                        .WithMany()
-                        .HasForeignKey("MyBodyBodyItem");
-
-                    b.HasOne("CMSWebPageCreator.Models.FooterInfo", "MyFooter")
-                        .WithMany()
-                        .HasForeignKey("MyFooterFooterItem");
-
-                    b.HasOne("CMSWebPageCreator.Models.HeaderInfo", "MyHeader")
-                        .WithMany()
-                        .HasForeignKey("MyHeaderHeaderItem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
