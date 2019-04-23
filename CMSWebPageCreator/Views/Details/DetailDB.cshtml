@@ -1,4 +1,4 @@
-﻿@model CMSWebPageCreator.Models.PageCreate
+﻿@model CMSWebPageCreator.Models.DbDetailViewModel
 
 @{
     ViewData["Title"] = "DATABASE DETAILS";
@@ -10,6 +10,8 @@
 <table>
     <tr>
         <th>Number of Pages</th>
-        <th>Number of Items for a Page</th>
+        <th>Number of Pages With a specific letter</th>
     </tr>
+    <tr>@Model.PageCount</tr>
+
 </table>
