@@ -23,10 +23,10 @@ namespace CMSWebPageCreator.Controllers
             IRestResponse response = client.Execute(request);
             var content = response.Content;
             var jObject = JObject.Parse(content);
-            var myQuote = (string)jObject["contents"]["quotes"][0]["quote"];
+            /*var myQuote = (string)jObject["contents"]["quotes"][0]["quote"];
             var myQuoteAuthor = (string)jObject["contents"]["quotes"][0]["author"];
             ViewData["quote"] = myQuote;
-            ViewData["author"] = myQuoteAuthor;
+            ViewData["author"] = myQuoteAuthor;*/
             return View();
 
         }

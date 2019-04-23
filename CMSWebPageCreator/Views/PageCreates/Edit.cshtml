@@ -24,11 +24,12 @@
             </div>
         </form>
         --------------------------------------------------------------------------------------------------------------------------------
+        @Html.Partial("HeaderCreatePartial", new HeaderInfo() { PageCreateParentId = Model.pageId })
 
-        @foreach (var item in Model.Headers)
+        @*@foreach (var item in Model.Headers)
         {
-            Html.RenderPartial("HeaderEditPartial", item);
-        }
+            Html.Partial("HeaderEditPartial", item);
+        }*@
         @*@foreach (var item in Model.BodyItems)
         {
             Html.RenderPartial("BodyEditPartial", item);
@@ -39,7 +40,7 @@
         }*@
         @*<div class="form-group">
             <h1>Header Edit</h1>
-            
+
             <form asp-action="DeleteHeaderItem">
                 <div class="form-indented">
                     <div><h1>Existing Header Items</h1></div>

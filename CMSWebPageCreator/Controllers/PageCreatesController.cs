@@ -89,9 +89,8 @@ namespace CMSWebPageCreator.Controllers
             {
                 return NotFound();
             }
-            ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+
             pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            pageCreate.Headers.Add(new HeaderInfo());
             ViewBag.MyFooter = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
            
             return View(pageCreate);
@@ -137,125 +136,108 @@ namespace CMSWebPageCreator.Controllers
         //Also do this for Header Footer, 
         //Other things to look at (on the edit view, we should load a dropdown of the ContentType )
 
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> MyHeaderCreate(/*Guid id,*/ [Bind("pageId,Title,Headers")] PageCreate pageCreate)
-//        {
-//            //if (id != pageCreate.pageId)
-//            //{
-//            //    return NotFound();
-//            //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateHeaderItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,HeaderContent")] HeaderInfo headerInfo)
+        {
+            //if (id != pageCreate.pageId)
+            //{
+            //    return NotFound();
+            //}
 
-//            if (ModelState.IsValid)
-//            {
-//                try
-//                {
-//                    foreach (var myHeader in pageCreate.Headers.Where(h => h.HeaderId == null))
-//                    {
-//                        myHeader.PageCreateParentId = pageCreate.pageId;
-//                        myHeader.HeaderId = Guid.NewGuid();
-//                        _context.HeaderInfo.Add(myHeader);
-//                    }
-//                    await _context.SaveChangesAsync();
-//                }
-//                catch (DbUpdateConcurrencyException)
-//                {
-//                    if (!PageCreateExists(pageCreate.pageId))
-//                    {
-//                        return NotFound();
-//}
-//                    else
-//                    {
-//                        throw;
-//                    }
-//                }
-//                return RedirectToAction("Edit", new { id = pageCreate.pageId });
-//            }
-//            return View(pageCreate);
-//        }
+            if (ModelState.IsValid)
+            {
+                headerInfo.HeaderId = Guid.NewGuid();
+                _context.Add(headerInfo);
+                await _context.SaveChangesAsync();
 
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> MyBodyCreate(/*Guid id,*/ [Bind("pageId,Title,MyBody")] PageCreate pageCreate)
-//        {
-//            //if (id != pageCreate.pageId)
-//            //{
-//            //    return NotFound();
-//            //}
+                return RedirectToAction("Edit", new { id = headerInfo.PageCreateParentId });
+            }
+            return View();
+        }
 
-//            if (ModelState.IsValid)
-//            {
-//                try
-//                {
-//                    var myBody = pageCreate.MyBody;
-//                    myBody.PageCreateParentId = pageCreate.pageId;
-//                    myBody.BodyId = Guid.NewGuid();
-//                    _context.BodyInfo.Add(myBody);
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public async Task<IActionResult> MyBodyCreate(/*Guid id,*/ [Bind("pageId,Title,MyBody")] PageCreate pageCreate)
+        //        {
+        //            //if (id != pageCreate.pageId)
+        //            //{
+        //            //    return NotFound();
+        //            //}
 
-//                    await _context.SaveChangesAsync();
-//                }
-//                catch (DbUpdateConcurrencyException)
-//                {
-//                    if (!PageCreateExists(pageCreate.pageId))
-//                    {
-//                        return NotFound();
-//                    }
-//                    else
-//                    {
-//                        throw;
-//                    }
-//                }
-//                return RedirectToAction("Edit", new { id = pageCreate.pageId });
-//            }
-//            return View(pageCreate);
-//        }
+        //            if (ModelState.IsValid)
+        //            {
+        //                try
+        //                {
+        //                    var myBody = pageCreate.MyBody;
+        //                    myBody.PageCreateParentId = pageCreate.pageId;
+        //                    myBody.BodyId = Guid.NewGuid();
+        //                    _context.BodyInfo.Add(myBody);
+
+        //                    await _context.SaveChangesAsync();
+        //                }
+        //                catch (DbUpdateConcurrencyException)
+        //                {
+        //                    if (!PageCreateExists(pageCreate.pageId))
+        //                    {
+        //                        return NotFound();
+        //                    }
+        //                    else
+        //                    {
+        //                        throw;
+        //                    }
+        //                }
+        //                return RedirectToAction("Edit", new { id = pageCreate.pageId });
+        //            }
+        //            return View(pageCreate);
+        //        }
 
 
-//        //Footer added context
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> MyFooterCreate(/*Guid id,*/ [Bind("pageId,Title,MyFooter")] PageCreate pageCreate)
-//        {
-//            //if (id != pageCreate.pageId)
-//            //{
-//            //    return NotFound();
-//            //}
+        //        //Footer added context
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public async Task<IActionResult> MyFooterCreate(/*Guid id,*/ [Bind("pageId,Title,MyFooter")] PageCreate pageCreate)
+        //        {
+        //            //if (id != pageCreate.pageId)
+        //            //{
+        //            //    return NotFound();
+        //            //}
 
-//            if (ModelState.IsValid)
-//            {
-//                try
-//                {
-//                    var myFooter = pageCreate.MyFooter;
-//                    myFooter.PageCreateParentId = pageCreate.pageId;
-//                    myFooter.FooterId = Guid.NewGuid();
-//                    _context.FooterInfo.Add(myFooter);
+        //            if (ModelState.IsValid)
+        //            {
+        //                try
+        //                {
+        //                    var myFooter = pageCreate.MyFooter;
+        //                    myFooter.PageCreateParentId = pageCreate.pageId;
+        //                    myFooter.FooterId = Guid.NewGuid();
+        //                    _context.FooterInfo.Add(myFooter);
 
-//                    await _context.SaveChangesAsync();
-//                }
-//                catch (DbUpdateConcurrencyException)
-//                {
-//                    if (!PageCreateExists(pageCreate.pageId))
-//                    {
-//                        return NotFound();
-//                    }
-//                    else
-//                    {
-//                        throw;
-//                    }
-//                }
-//                return RedirectToAction("Edit", new { id = pageCreate.pageId });
-//            }
-//            return View(pageCreate);
-//        }
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> DeleteConfirmed(Guid id)
-//        {
-//            var headerInfo = await _context.HeaderInfo.FindAsync(id);
-//            _context.HeaderInfo.Remove(headerInfo);
-//            await _context.SaveChangesAsync();
-//            return RedirectToAction(nameof(Index));
-//        }
+        //                    await _context.SaveChangesAsync();
+        //                }
+        //                catch (DbUpdateConcurrencyException)
+        //                {
+        //                    if (!PageCreateExists(pageCreate.pageId))
+        //                    {
+        //                        return NotFound();
+        //                    }
+        //                    else
+        //                    {
+        //                        throw;
+        //                    }
+        //                }
+        //                return RedirectToAction("Edit", new { id = pageCreate.pageId });
+        //            }
+        //            return View(pageCreate);
+        //        }
+        //        [HttpPost, ActionName("Delete")]
+        //        [ValidateAntiForgeryToken]
+        //        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        //        {
+        //            var headerInfo = await _context.HeaderInfo.FindAsync(id);
+        //            _context.HeaderInfo.Remove(headerInfo);
+        //            await _context.SaveChangesAsync();
+        //            return RedirectToAction(nameof(Index));
+        //        }
 
         // GET: PageCreates/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
