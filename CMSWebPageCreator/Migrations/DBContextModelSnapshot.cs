@@ -27,7 +27,11 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid>("PageCreateParentId");
 
+                    b.Property<Guid?>("PageCreatepageId");
+
                     b.HasKey("BodyItem");
+
+                    b.HasIndex("PageCreatepageId");
 
                     b.ToTable("BodyInfo");
                 });
@@ -43,7 +47,11 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid>("PageCreateParentId");
 
+                    b.Property<Guid?>("PageCreatepageId");
+
                     b.HasKey("FooterItem");
+
+                    b.HasIndex("PageCreatepageId");
 
                     b.ToTable("FooterInfo");
                 });
@@ -59,7 +67,11 @@ namespace CMSWebPageCreator.Migrations
 
                     b.Property<Guid>("PageCreateParentId");
 
+                    b.Property<Guid?>("PageCreatepageId");
+
                     b.HasKey("HeaderItem");
+
+                    b.HasIndex("PageCreatepageId");
 
                     b.ToTable("HeaderInfo");
                 });
@@ -243,6 +255,27 @@ namespace CMSWebPageCreator.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CMSWebPageCreator.Models.BodyInfo", b =>
+                {
+                    b.HasOne("CMSWebPageCreator.Models.PageCreate")
+                        .WithMany("BodyItems")
+                        .HasForeignKey("PageCreatepageId");
+                });
+
+            modelBuilder.Entity("CMSWebPageCreator.Models.FooterInfo", b =>
+                {
+                    b.HasOne("CMSWebPageCreator.Models.PageCreate")
+                        .WithMany("FooterItems")
+                        .HasForeignKey("PageCreatepageId");
+                });
+
+            modelBuilder.Entity("CMSWebPageCreator.Models.HeaderInfo", b =>
+                {
+                    b.HasOne("CMSWebPageCreator.Models.PageCreate")
+                        .WithMany("Headers")
+                        .HasForeignKey("PageCreatepageId");
                 });
 
             modelBuilder.Entity("CMSWebPageCreator.Models.PageCreate", b =>

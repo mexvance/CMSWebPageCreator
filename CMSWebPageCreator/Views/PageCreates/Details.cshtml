@@ -19,7 +19,7 @@
     </dl>
 </div>
 <div id="topComment">
-    @foreach (var item in ViewBag.MyHeader)
+    @foreach (var item in Model.Headers)
     {
         <div>
             @if ((int)item.ContentType == 0)
@@ -38,7 +38,7 @@
         </div>
     }
     <div>----------------------------------------------------------------------------------</div>
-    @foreach (var item in ViewBag.MyBody)
+    @*@foreach (var item in ViewBag.MyBody)
     {
         <div>
             @if ((int)item.ContentType == 0)
@@ -72,7 +72,7 @@
                 <p>@item.FooterContenti - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
             }
         </div>
-    }
+    }*@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.pageId">Edit</a> |
