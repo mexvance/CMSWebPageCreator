@@ -6,11 +6,11 @@ namespace CMSWebPageCreator.Models
     public interface IContent
     {
     }
-    public class HeaderInfo
+    public class HeaderInfo : IContent
     {
         public Guid PageCreateParentId { get; set; }
         [Key]
-        public Guid HeaderItem { get; set; }
+        public Guid HeaderId { get; set; }
         public string HeaderContent { get; set; }
         public HeaderStyleType ContentType { get; set; }
     }
@@ -19,15 +19,15 @@ namespace CMSWebPageCreator.Models
     {
         public Guid PageCreateParentId { get; set; }
         [Key]
-        public Guid FooterItem { get; set; }
+        public Guid FooterId { get; set; }
         public string FooterContent { get; set; }
         public FooterStyleType ContentType { get; set; }
     }
-    public class BodyInfo
+    public class BodyInfo :IContent
     {
         public Guid PageCreateParentId { get; set; }
         [Key]
-        public Guid BodyItem { get; set; }
+        public Guid BodyId { get; set; }
         public string BodyContent { get; set; }
         public BodyStyleType ContentType { get; set; }
     }
