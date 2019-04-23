@@ -1,0 +1,26 @@
+﻿@model HeaderInfo
+@{
+    ViewData["Title"] = "HeaderEditPartial";
+}
+
+<h1>Header Edit</h1>
+<form asp-action="DeleteHeaderItem">
+    <div class="form-indented">
+        <div><h1>Existing Header Items</h1></div>
+            <div>
+                <label asp-for="@Model.HeaderContent" class="control-label"></label>
+                <input asp-for="@Model.HeaderContent" class="form-control" />
+                <span asp-validation-for="@Model.HeaderContent" class="text-danger"></span>
+
+                <label asp-for="@Model.ContentType" class="control-label"></label>
+                <input asp-for="@Model.ContentType" class="form-control" />
+                <span asp-validation-for="@Model.ContentType" class="text-danger"></span>
+
+                <input type="hidden" value="@Model.PageCreateParentId" asp-for="PageCreateParentId" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="DeleteHeaderItem" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+</form>

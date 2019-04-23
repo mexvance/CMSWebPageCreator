@@ -9,7 +9,7 @@
 <h4>PageCreate</h4>
 <hr />
 <div class="row">
-    @*<div class="col-md-4">
+    <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="pageId" />
@@ -24,24 +24,22 @@
             </div>
         </form>
         --------------------------------------------------------------------------------------------------------------------------------
-        <div class="form-group">
+
+        @foreach (var item in Model.Headers)
+        {
+            Html.RenderPartial("HeaderEditPartial", item);
+        }
+        @*@foreach (var item in Model.BodyItems)
+        {
+            Html.RenderPartial("BodyEditPartial", item);
+        }
+        @foreach (var item in Model.FooterItems)
+        {
+            Html.RenderPartial("FooterEditPartial", item);
+        }*@
+        @*<div class="form-group">
             <h1>Header Edit</h1>
-            <form asp-action="MyHeaderCreate">
-                <div>
-                    <label asp-for="MyHeader.HeaderContent" class="control-label"></label>
-                    <input asp-for="MyHeader.HeaderContent" class="form-control" />
-                    <span asp-validation-for="MyHeader.HeaderContent" class="text-danger"></span>
-
-                    <label asp-for="MyHeader.ContentType" class="control-label"></label>
-                    <input asp-for="MyHeader.ContentType" class="form-control" />
-                    <span asp-validation-for="MyHeader.ContentType" class="text-danger"></span>
-
-                    <input type="hidden" asp-for="pageId" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="MyHeaderCreate" class="btn btn-primary" />
-                </div>
-            </form>
+            
             <form asp-action="DeleteHeaderItem">
                 <div class="form-indented">
                     <div><h1>Existing Header Items</h1></div>
@@ -104,8 +102,8 @@
                     <input type="submit" value="MyFooterCreate" class="btn btn-primary" />
                 </div>
             </form>
-        </div>
-    </div>*@
+        </div>*@
+    </div>
 </div>
 
 <div>
