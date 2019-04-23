@@ -10,9 +10,25 @@ namespace CMSWebPageCreator.Models
 {
     public class DBContext : IdentityDbContext
     {
-        public DBContext (DbContextOptions<DBContext> options)
+        public DBContext(DbContextOptions<DBContext> options)
             : base(options)
         {
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<PageCreate>()
+                .HasMany(p => p.Headers);
+            modelBuilder.Entity<PageCreate>()
+                .HasMany(p => p.BodyItems);
+            modelBuilder.Entity<PageCreate>()
+                .HasMany(p => p.FooterItems);
+            //modelBuilder.Entity<PageCreate>()
+            //    .HasMany(p => p.Headers);
+            //modelBuilder.Entity<PageCreate>()
+            //    .HasMany(p => p.Headers);
+
+
         }
 
         public DbSet<CMSWebPageCreator.Models.BodyInfo> BodyInfo { get; set; }
@@ -24,3 +40,4 @@ namespace CMSWebPageCreator.Models
         public DbSet<CMSWebPageCreator.Models.PageCreate> PageCreate { get; set; }
     }
 }
+    
