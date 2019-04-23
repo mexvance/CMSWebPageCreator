@@ -21,8 +21,5 @@ namespace CMSWebPageCreator.Models
         public List<HeaderInfo> Headers { get; set; }
         public List<BodyInfo> BodyItems { get; set; }
         public List<FooterInfo> FooterItems { get; set; }
-        public BodyInfo MyBody { get; set; }
-        public FooterInfo MyFooter { get; set; }
-        public HeaderInfo MyHeader { get; set; }
     }
 }

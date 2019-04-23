@@ -7,13 +7,5 @@ using System.Threading.Tasks;
 
 namespace CMSWebPageCreator.Models
 {
-    public class BodyInfo
-    {
-        public Guid PageCreateParentId { get; set; }
-        [Key]
-        public Guid BodyItem { get; set; }
-        public string BodyContent { get; set; }
-        public BodyStyleType ContentType { get; set; }
-    }
-    public enum BodyStyleType { Title, BodyText, Image, ImageLink, ImageDescription, TextLink}
+    
 }

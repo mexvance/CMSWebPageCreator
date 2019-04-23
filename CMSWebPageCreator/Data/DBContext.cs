@@ -31,7 +31,7 @@ namespace CMSWebPageCreator.Models
 
         }
 
-        public DbSet<CMSWebPageCreator.Models.BodyInfo> BodyInfo { get; set; }
+        public DbSet<CMSWebPageCreator.Models.HeaderInfo> BodyInfo { get; set; }
 
         public DbSet<CMSWebPageCreator.Models.FooterInfo> FooterInfo { get; set; }
 

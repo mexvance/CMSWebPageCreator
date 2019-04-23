@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace CMSWebPageCreator.Services
 {
-    public class IPageManagerService
+    public interface IPageManagerService
     {
+
     }
 }
