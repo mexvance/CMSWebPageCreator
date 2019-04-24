@@ -20,16 +20,20 @@ namespace CMSWebPageCreator.Controllers
         {
             return View();
         }
-        public IActionResult DetailDB()
+        public IActionResult DetailDB(string searchString)
         {
+
+
             var pageCount=dBContext.PageCreate.Count();
-            var numOfPageWithALetter = dBContext.PageCreate.Count();
+            var search = dBContext.PageCreate.Count.Where(b => b.Title.Contains(searchString);
             var detailPageVM = new DbDetailViewModel();
          
             detailPageVM.PageCount = pageCount;
+            detailPageVM.PageCount = search;
 
             return View(detailPageVM);
         }
+
 
         
 
