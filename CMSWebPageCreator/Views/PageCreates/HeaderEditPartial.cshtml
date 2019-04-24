@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "HeaderEditPartial";
 }
-<form asp-action="DeleteHeaderItem">
+<form asp-action="EditHeaderItem">
     <div class="form-indented">
             <label asp-for="@Model.HeaderContent" class="control-label"></label>
             <input asp-for="@Model.HeaderContent" class="form-control" />
@@ -16,8 +16,8 @@
                 <input type="hidden" value="@Model.HeaderId" asp-for="HeaderId" />
             </div>
             <div class="form-group">
-                <input type="submit" name="delete" value="Delete Item" class="btn btn-primary" />
                 <input type="submit" name="edit" value="Edit Item" class="btn btn-primary" />
+                <input type="submit" name="delete" value="Delete Item" class="btn btn-primary" />
             </div>
         </div>
 </form>

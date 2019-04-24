@@ -7,36 +7,50 @@
 <h1>Edit</h1>
 
 <h4>PageCreate</h4>
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="pageId" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="pageId" />
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-        --------------------------------------------------------------------------------------------------------------------------------
-        @Html.Partial("HeaderCreatePartial", new HeaderInfo() { PageCreateParentId = Model.pageId })
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+<hr>
+@Html.Partial("HeaderCreatePartial", new HeaderInfo() { PageCreateParentId = Model.pageId })
 
-        <div><h1>Existing Headers</h1></div>
-        @foreach (var item in Model.Headers)
-        {
-            @Html.Partial("HeaderEditPartial", item);
-        }
-        @*@foreach (var item in Model.BodyItems)
-        {
-            Html.RenderPartial("BodyEditPartial", item);
-        }
-        @foreach (var item in Model.FooterItems)
-        {
-            Html.RenderPartial("FooterEditPartial", item);
-        }*@
-        @*<div class="form-group">
+<div><h2>Edit Existing Headers</h2></div>
+@foreach (var item in Model.Headers)
+{
+    @Html.Partial("HeaderEditPartial", item);
+}
+<hr>
+
+@Html.Partial("BodyCreatePartial", new BodyInfo() { PageCreateParentId = Model.pageId })
+
+@if (Model.BodyItems.Count > 0)
+{
+    <div><h2>Edit Existing Body Items</h2></div>
+}
+@foreach (var item in Model.BodyItems)
+{
+    @Html.Partial("BodyEditPartial", item);
+}
+<hr>
+@Html.Partial("FooterCreatePartial", new FooterInfo() { PageCreateParentId = Model.pageId })
+@if (Model.FooterItems.Count > 0)
+{
+    <div><h2>Edit Existing Footer Items</h2></div>
+}
+@foreach (var item in Model.FooterItems)
+{
+    @Html.Partial("FooterEditPartial", item);
+}
+    @*<div class="form-group">
             <h1>Header Edit</h1>
 
             <form asp-action="DeleteHeaderItem">
@@ -103,10 +117,10 @@
             </form>
         </div>*@
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

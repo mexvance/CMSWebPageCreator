@@ -1,9 +1,12 @@
 ﻿@model FooterInfo
 @{
-    ViewData["Title"] = "FooterEditPartial";
+    ViewData["Title"] = "FooterCreatePartial";
 }
-<form asp-action="EditFooterItem">
+
+<h1>Add New Footer Item</h1>
+<form asp-action="CreateFooterItem">
     <div class="form-indented">
+
         <label asp-for="@Model.FooterContent" class="control-label"></label>
         <input asp-for="@Model.FooterContent" class="form-control" />
         <span asp-validation-for="@Model.FooterContent" class="text-danger"></span>
@@ -13,11 +16,10 @@
             <span asp-validation-for="@Model.ContentType" class="text-danger"></span>
 
             <input type="hidden" value="@Model.PageCreateParentId" asp-for="PageCreateParentId" />
-            <input type="hidden" value="@Model.FooterId" asp-for="FooterId" />
         </div>
         <div class="form-group">
-            <input type="submit" name="edit" value="Edit Item" class="btn btn-primary" />
-            <input type="submit" name="delete" value="Delete Item" class="btn btn-primary" />
+            <input type="submit" value="Create Footer" class="btn btn-primary" />
         </div>
     </div>
 </form>
+
