@@ -6,11 +6,11 @@
 <h1>Add New Header</h1>
 <form asp-action="CreateHeaderItem">
     <div class="form-indented">
-        <div>
-            <label asp-for="@Model.HeaderContent" class="control-label"></label>
-            <input asp-for="@Model.HeaderContent" class="form-control" />
-            <span asp-validation-for="@Model.HeaderContent" class="text-danger"></span>
 
+        <label asp-for="@Model.HeaderContent" class="control-label"></label>
+        <input asp-for="@Model.HeaderContent" class="form-control" />
+        <span asp-validation-for="@Model.HeaderContent" class="text-danger"></span>
+        <div class="form-group">
             <label asp-for="@Model.ContentType" class="control-label"></label>
             <input asp-for="@Model.ContentType" class="form-control" />
             <span asp-validation-for="@Model.ContentType" class="text-danger"></span>

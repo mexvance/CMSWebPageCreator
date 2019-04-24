@@ -155,6 +155,32 @@ namespace CMSWebPageCreator.Controllers
             }
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteHeaderItem( [Bind("PageCreateParentId,ContentType,HeaderContent,HeaderId")] HeaderInfo headerInfo,
+                                                          string delete, string edit)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (!string.IsNullOrEmpty(delete))
+                {
+                    var header = _context.HeaderInfo
+                        .Where(pi => pi.HeaderId == headerInfo.HeaderId)
+                        .FirstOrDefault();
+                    _context.Remove(header);
+                    await _context.SaveChangesAsync();
+                }
+                else if (!string.IsNullOrEmpty(edit))
+                {
+                   
+                    _context.Update(headerInfo);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Edit", new { id = headerInfo.PageCreateParentId });
+            }
+            return View();
+        }
 
         //        [HttpPost]
         //        [ValidateAntiForgeryToken]
