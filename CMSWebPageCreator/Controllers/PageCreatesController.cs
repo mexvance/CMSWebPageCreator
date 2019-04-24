@@ -53,6 +53,7 @@ namespace CMSWebPageCreator.Controllers
         }
 
         // GET: PageCreates/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -62,6 +63,7 @@ namespace CMSWebPageCreator.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("pageId,Title")] PageCreate pageCreate)
         {
@@ -77,6 +79,8 @@ namespace CMSWebPageCreator.Controllers
         }
 
         // GET: PageCreates/Edit/5
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -100,6 +104,8 @@ namespace CMSWebPageCreator.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Editor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("pageId,Title")] PageCreate pageCreate)
         {
@@ -137,6 +143,8 @@ namespace CMSWebPageCreator.Controllers
         //Other things to look at (on the edit view, we should load a dropdown of the ContentType )
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Editor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateHeaderItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,HeaderContent")] HeaderInfo headerInfo)
         {
@@ -240,6 +248,8 @@ namespace CMSWebPageCreator.Controllers
         //        }
 
         // GET: PageCreates/Delete/5
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -259,6 +269,8 @@ namespace CMSWebPageCreator.Controllers
 
         // POST: PageCreates/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Editor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteHeaderItem(Guid id, [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
         {
