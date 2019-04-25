@@ -53,6 +53,7 @@ namespace CMSWebPageCreator.Controllers
         }
 
         // GET: PageCreates/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
