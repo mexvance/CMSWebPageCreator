@@ -35,7 +35,7 @@ namespace CMSWebPageCreator
                     return true;
                 }
             }
-                return false;
+            return false;
         }
     }
 }

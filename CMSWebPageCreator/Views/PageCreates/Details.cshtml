@@ -8,107 +8,102 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="jumbotron text-center"><h1>@Html.DisplayFor(model => model.Title)</h1></div>
 
-<div>
-    <h4>PageCreate</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-    </dl>
-</div>
-<div id="topComment">
     @foreach (var item in Model.Headers)
     {
-        <div>
-            @if ((int)item.ContentType == 0)
-            {
-                <h1>@item.HeaderContent</h1>
-            }
-            else if ((int)item.ContentType == 1)
-            {
-                <p>@item.HeaderContent</p>
-            }
-            else if ((int)item.ContentType == 2) //We are an image
-            {
-                <img src="@item.HeaderContent" alt="Image"><img />
-            }
-            else
-            {
+        <header>
+            <div class="navbar navbar-dark bg-dark box-shadow text-white">
+                @if ((int)item.ContentType == 0)
+                {
+                <div><h1 class="align-content-center">@item.HeaderContent</h1></div>
+                }
+                else if ((int)item.ContentType == 1)
+                {
+                    <p>@item.HeaderContent</p>
+                }
+                else if ((int)item.ContentType == 2) //We are an image
+                {
+                    <img src="@item.HeaderContent" alt="Image"><img />
+                }
+                else
+                {
 
-                <p>@item.HeaderContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                    <p>@item.HeaderContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                }
+            </div>
+        </header>
+    }
+        <div id="topComment">
+            @foreach (var item in Model.BodyItems)
+            {
+                <div>
+                    @if ((int)item.ContentType == 0)
+                    {
+                        <h1>@item.BodyContent</h1>
+                    }
+                    else if ((int)item.ContentType == 1)
+                    {
+                        <p>@item.BodyContent</p>
+                    }
+                    else if ((int)item.ContentType == 2) //We are an image
+                    {
+                        <img src="@item.BodyContent" alt="Image"><img />
+                    }
+                    else
+                    {
+
+                        <p>@item.BodyContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                    }
+                </div>
             }
+                <div>
+
+                    <p class="font-weight-bold">Page Comments</p>
+                    @{
+                        ViewBag.Layer = 0;
+                    }
+                    <div id="topComment">
+                        @Html.Partial("comment", ((List<Comment>)ViewBag.Comments).Where(c => c.ParentId == null).ToList())
+                    </div>
+                    <br />
+
+                    @{
+                        if (ViewBag.userId != null)
+                        {
+                            @Html.Partial("NewComment", new Comment() { PostId = Model.Title, ParentId = null, UserId = ViewBag.userId })
+                        }
+                    }
+                    <hr />
+                </div>
+
+            @foreach (var item in Model.FooterItems)
+            {
+                <footer class="text-muted">
+                    <div class="container">
+                        @if ((int)item.ContentType == 0)
+                        {
+                            <h1>@item.FooterContent</h1>
+                        }
+                        else if ((int)item.ContentType == 1)
+                        {
+                            <p>@item.FooterContent</p>
+                        }
+                        else if ((int)item.ContentType == 2) //We are an image
+                        {
+                            <img src="@item.FooterContent" alt="Image"><img />
+                        }
+                        else
+                        {
+
+                            <p>@item.FooterContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+                        }
+                    </div>
+                </footer>
+            }
+            <hr />
+
         </div>
-    }
-    <hr />
-    @foreach (var item in Model.BodyItems)
-    {
-        <div>
-            @if ((int)item.ContentType == 0)
-            {
-                <h1>@item.BodyContent</h1>
-            }
-            else if ((int)item.ContentType == 1)
-            {
-                <p>@item.BodyContent</p>
-            }
-            else if ((int)item.ContentType == 2) //We are an image
-            {
-                <img src="@item.BodyContent" alt="Image"><img />
-            }
-            else
-            {
-
-                <p>@item.BodyContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
-            }
-        </div>
-    }
-    <hr />
-    @foreach (var item in Model.FooterItems)
-    {
-        <div>
-            @if ((int)item.ContentType == 0)
-            {
-                <h1>@item.FooterContent</h1>
-            }
-            else if ((int)item.ContentType == 1)
-            {
-                <p>@item.FooterContent</p>
-            }
-            else if ((int)item.ContentType == 2) //We are an image
-            {
-                <img src="@item.FooterContent" alt="Image"><img />
-            }
-            else
-            {
-
-                <p>@item.FooterContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
-            }
-        </div>
-    }
-    <hr />
-    @{
-        ViewBag.Layer = 0;
-    }
-
-    <div id="topComment">
-        @Html.Partial("comment", ((List<Comment>)ViewBag.Comments).Where(c => c.ParentId == null).ToList())
-    </div>
-    <br />
-
-    @{
-        //if (ViewBag.userId != null)
-        {
-            @Html.Partial("NewComment", new Comment() { PostId = Model.Title, ParentId = null, UserId = ViewBag.userId })
-        }
-    }
-
-</div>
 <div>
     @if (canEdit) {<a asp-action="Edit" asp-route-id="@Model.pageId">Edit |</a> }
     <a asp-action="Index">Back to List</a>

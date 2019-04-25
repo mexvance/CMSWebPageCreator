@@ -41,7 +41,7 @@ namespace CMSWebPageCreator
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(MyIdentity.Policy_Add, policy => policy.RequireRole(MyIdentity.AdminRoleName, MyIdentity.EditorRoleName, MyIdentity.ContributorRoleName));
+                options.AddPolicy(MyIdentity.Policy_Add, policy => policy.RequireRole(MyIdentity.AdminRoleName));
                 options.AddPolicy(MyIdentity.Policy_Edit, policy => policy.RequireRole(MyIdentity.AdminRoleName, MyIdentity.EditorRoleName));
                 options.AddPolicy(MyIdentity.Policy_Delete, policy => policy.RequireRole(MyIdentity.AdminRoleName));
             });

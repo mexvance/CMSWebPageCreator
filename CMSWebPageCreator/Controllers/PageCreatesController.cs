@@ -34,6 +34,7 @@ namespace CMSWebPageCreator.Controllers
         public async Task<IActionResult> Details(string permalink)
         {
             ViewData["permalink"] = permalink;
+            var currentUser = await _userManager.GetUserAsync(User);
 
             var pageCreate = await _context.PageCreate
                 .FirstOrDefaultAsync(m => m.Title.ToLower() == permalink.ToLower());
@@ -42,10 +43,19 @@ namespace CMSWebPageCreator.Controllers
                 return NotFound();
             }
 
+            if (currentUser == null)
+            {
+                ViewBag.userId = null;
+            }
+            else
+            {
+                ViewBag.userId = currentUser.Id;
+            }
+
             pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
             pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
             pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
-            ViewBag.Comments = await _context.Comment.Where(c => c.PostId.ToLower() == pageCreate.Title.ToLower()).ToListAsync();
+            ViewBag.Comments = await _context.Comment.Where(c => c.PostId == pageCreate.Title).ToListAsync();
 
             return View(pageCreate);
         }
@@ -340,7 +350,13 @@ namespace CMSWebPageCreator.Controllers
             {
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", new { id = comment.PostId });
+                
+                var pageCreate = await _context.PageCreate.FirstOrDefaultAsync(p => p.Title.ToLower() == comment.PostId.ToLower());
+                pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
+                pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
+                pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
+                ViewBag.Comments = await _context.Comment.Where(c => c.PostId.ToLower() == pageCreate.Title.ToLower()).ToListAsync();
+                return Redirect("/"+ pageCreate.Title);
             }
             return View(comment);
         }

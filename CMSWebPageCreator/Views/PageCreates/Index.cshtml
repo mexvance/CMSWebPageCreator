@@ -1,35 +1,46 @@
 ﻿@model IEnumerable<CMSWebPageCreator.Models.PageCreate>
-
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService Authorization
+@{
+    var canAdd = (await Authorization.AuthorizeAsync(User, MyIdentity.Policy_Add)).Succeeded;
+    var canEdit = (await Authorization.AuthorizeAsync(User, MyIdentity.Policy_Edit)).Succeeded;
+    var canDelete = (await Authorization.AuthorizeAsync(User, MyIdentity.Policy_Delete)).Succeeded;
+}
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="jumbotron jumbotron-fluid bg- text-center"><h1>Existing Pages</h1></div>
+<div class="form-group text-center">
+    @if (canAdd)
+    {<a asp-action="Create" class="btn btn-primary">Create New Page</a>}
+</div>
+<table class="table bg-light">  
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
+        <tr class="card-header bg-dark">
+            <th class="text-white">
+                    Page Names
             </th>
-            <th></th>
+            <th class="text-white">
+                    Options
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.pageId">Edit</a> |
-                <a href="@item.Title">View Page</a> |
-                <a asp-action="Delete" asp-route-id="@item.pageId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class=""></div>@Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @if (canEdit)
+                    {<a asp-action="Edit" asp-route-id="@item.pageId">Edit</a><br />}
+                    <a href="@item.Title">View Page</a>
+                    @if (canDelete)
+                    {<br /><a asp-action="Delete" asp-route-id="@item.pageId">Delete</a>}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
