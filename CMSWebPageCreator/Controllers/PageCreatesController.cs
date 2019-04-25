@@ -45,8 +45,6 @@ namespace CMSWebPageCreator.Controllers
                 return NotFound();
             }
 
-            //ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            //ViewBag.MyHeader = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
             pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
             pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
             pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
@@ -65,6 +63,7 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("pageId,Title")] PageCreate pageCreate)
         {
             if (ModelState.IsValid)
@@ -79,6 +78,7 @@ namespace CMSWebPageCreator.Controllers
         }
 
         // GET: PageCreates/Edit/5
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -104,6 +104,7 @@ namespace CMSWebPageCreator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> Edit(Guid id, [Bind("pageId,Title")] PageCreate pageCreate)
         {
             if (id != pageCreate.pageId)
@@ -141,6 +142,7 @@ namespace CMSWebPageCreator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> CreateHeaderItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,HeaderContent")] HeaderInfo headerInfo)
         {
             //if (id != pageCreate.pageId)
@@ -160,6 +162,7 @@ namespace CMSWebPageCreator.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> EditHeaderItem( [Bind("PageCreateParentId,ContentType,HeaderContent,HeaderId")] HeaderInfo headerInfo,
                                                           string edit, string delete)
         {
@@ -187,6 +190,7 @@ namespace CMSWebPageCreator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> CreateBodyItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,BodyContent")] BodyInfo bodyInfo)
         {
             //if (id != pageCreate.pageId)
@@ -206,6 +210,7 @@ namespace CMSWebPageCreator.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> EditBodyItem([Bind("PageCreateParentId,ContentType,BodyContent,BodyId")] BodyInfo bodyInfo,
                                                           string edit, string delete)
         {
@@ -233,6 +238,7 @@ namespace CMSWebPageCreator.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> CreateFooterItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,FooterContent")] FooterInfo footerInfo)
         {
             //if (id != pageCreate.pageId)
@@ -252,6 +258,7 @@ namespace CMSWebPageCreator.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> EditFooterItem([Bind("PageCreateParentId,ContentType,FooterContent,FooterId")] FooterInfo footerInfo,
                                                           string edit, string delete)
         {
@@ -278,6 +285,7 @@ namespace CMSWebPageCreator.Controllers
         }
 
         // GET: PageCreates/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -298,6 +306,7 @@ namespace CMSWebPageCreator.Controllers
         // POST: PageCreates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteHeaderItem(Guid id, [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
         {
             //var headerItem = await _context.HeaderInfo.FindAsync(pageCreate.Headers);
