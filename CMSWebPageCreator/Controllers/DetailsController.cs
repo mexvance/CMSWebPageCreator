@@ -25,7 +25,11 @@ namespace CMSWebPageCreator.Controllers
 
 
             var pageCount=dBContext.PageCreate.Count();
-            searchString = "M";
+            if(searchString==null)
+            {
+                searchString = "M";
+            }
+
             var search = dBContext.PageCreate.Where(b => b.Title.ToLower().Contains(searchString.ToLower()));
             var searchCount = search.Count();
             var detailPageVM = new DbDetailViewModel();
