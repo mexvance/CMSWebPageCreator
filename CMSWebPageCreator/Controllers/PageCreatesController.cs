@@ -45,15 +45,14 @@ namespace CMSWebPageCreator.Controllers
                 return NotFound();
             }
 
-            //ViewBag.MyBody = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            //ViewBag.MyHeader = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
             pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
 
             return View(pageCreate);
         }
 
         // GET: PageCreates/Create
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -63,8 +62,8 @@ namespace CMSWebPageCreator.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("pageId,Title")] PageCreate pageCreate)
         {
             if (ModelState.IsValid)
@@ -79,8 +78,7 @@ namespace CMSWebPageCreator.Controllers
         }
 
         // GET: PageCreates/Edit/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Editor")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -95,8 +93,9 @@ namespace CMSWebPageCreator.Controllers
             }
 
             pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            ViewBag.MyFooter = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-           
+            pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+
             return View(pageCreate);
         }
 
@@ -104,9 +103,8 @@ namespace CMSWebPageCreator.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Editor")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> Edit(Guid id, [Bind("pageId,Title")] PageCreate pageCreate)
         {
             if (id != pageCreate.pageId)
@@ -143,9 +141,8 @@ namespace CMSWebPageCreator.Controllers
         //Other things to look at (on the edit view, we should load a dropdown of the ContentType )
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Editor")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<IActionResult> CreateHeaderItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,HeaderContent")] HeaderInfo headerInfo)
         {
             //if (id != pageCreate.pageId)
@@ -163,93 +160,132 @@ namespace CMSWebPageCreator.Controllers
             }
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
+        public async Task<IActionResult> EditHeaderItem( [Bind("PageCreateParentId,ContentType,HeaderContent,HeaderId")] HeaderInfo headerInfo,
+                                                          string edit, string delete)
+        {
 
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public async Task<IActionResult> MyBodyCreate(/*Guid id,*/ [Bind("pageId,Title,MyBody")] PageCreate pageCreate)
-        //        {
-        //            //if (id != pageCreate.pageId)
-        //            //{
-        //            //    return NotFound();
-        //            //}
+            if (ModelState.IsValid)
+            {
+                if (!string.IsNullOrEmpty(delete))
+                {
+                    var header = _context.HeaderInfo
+                        .Where(pi => pi.HeaderId == headerInfo.HeaderId)
+                        .FirstOrDefault();
+                    _context.Remove(header);
+                    await _context.SaveChangesAsync();
+                }
+                else if (!string.IsNullOrEmpty(edit))
+                {
+                   
+                    _context.Update(headerInfo);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Edit", new { id = headerInfo.PageCreateParentId });
+            }
+            return View();
+        }
 
-        //            if (ModelState.IsValid)
-        //            {
-        //                try
-        //                {
-        //                    var myBody = pageCreate.MyBody;
-        //                    myBody.PageCreateParentId = pageCreate.pageId;
-        //                    myBody.BodyId = Guid.NewGuid();
-        //                    _context.BodyInfo.Add(myBody);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
+        public async Task<IActionResult> CreateBodyItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,BodyContent")] BodyInfo bodyInfo)
+        {
+            //if (id != pageCreate.pageId)
+            //{
+            //    return NotFound();
+            //}
 
-        //                    await _context.SaveChangesAsync();
-        //                }
-        //                catch (DbUpdateConcurrencyException)
-        //                {
-        //                    if (!PageCreateExists(pageCreate.pageId))
-        //                    {
-        //                        return NotFound();
-        //                    }
-        //                    else
-        //                    {
-        //                        throw;
-        //                    }
-        //                }
-        //                return RedirectToAction("Edit", new { id = pageCreate.pageId });
-        //            }
-        //            return View(pageCreate);
-        //        }
+            if (ModelState.IsValid)
+            {
+                bodyInfo.BodyId = Guid.NewGuid();
+                _context.Add(bodyInfo);
+                await _context.SaveChangesAsync();
 
+                return RedirectToAction("Edit", new { id = bodyInfo.PageCreateParentId });
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
+        public async Task<IActionResult> EditBodyItem([Bind("PageCreateParentId,ContentType,BodyContent,BodyId")] BodyInfo bodyInfo,
+                                                          string edit, string delete)
+        {
 
-        //        //Footer added context
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public async Task<IActionResult> MyFooterCreate(/*Guid id,*/ [Bind("pageId,Title,MyFooter")] PageCreate pageCreate)
-        //        {
-        //            //if (id != pageCreate.pageId)
-        //            //{
-        //            //    return NotFound();
-        //            //}
+            if (ModelState.IsValid)
+            {
+                if (!string.IsNullOrEmpty(delete))
+                {
+                    var body = _context.BodyInfo
+                        .Where(pi => pi.BodyId == bodyInfo.BodyId)
+                        .FirstOrDefault();
+                    _context.Remove(body);
+                    await _context.SaveChangesAsync();
+                }
+                else if (!string.IsNullOrEmpty(edit))
+                {
 
-        //            if (ModelState.IsValid)
-        //            {
-        //                try
-        //                {
-        //                    var myFooter = pageCreate.MyFooter;
-        //                    myFooter.PageCreateParentId = pageCreate.pageId;
-        //                    myFooter.FooterId = Guid.NewGuid();
-        //                    _context.FooterInfo.Add(myFooter);
+                    _context.Update(bodyInfo);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Edit", new { id = bodyInfo.PageCreateParentId });
+            }
+            return View();
+        }
 
-        //                    await _context.SaveChangesAsync();
-        //                }
-        //                catch (DbUpdateConcurrencyException)
-        //                {
-        //                    if (!PageCreateExists(pageCreate.pageId))
-        //                    {
-        //                        return NotFound();
-        //                    }
-        //                    else
-        //                    {
-        //                        throw;
-        //                    }
-        //                }
-        //                return RedirectToAction("Edit", new { id = pageCreate.pageId });
-        //            }
-        //            return View(pageCreate);
-        //        }
-        //        [HttpPost, ActionName("Delete")]
-        //        [ValidateAntiForgeryToken]
-        //        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        //        {
-        //            var headerInfo = await _context.HeaderInfo.FindAsync(id);
-        //            _context.HeaderInfo.Remove(headerInfo);
-        //            await _context.SaveChangesAsync();
-        //            return RedirectToAction(nameof(Index));
-        //        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
+        public async Task<IActionResult> CreateFooterItem(/*Guid id,*/ [Bind("PageCreateParentId,ContentType,FooterContent")] FooterInfo footerInfo)
+        {
+            //if (id != pageCreate.pageId)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                footerInfo.FooterId = Guid.NewGuid();
+                _context.Add(footerInfo);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Edit", new { id = footerInfo.PageCreateParentId });
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Editor")]
+        public async Task<IActionResult> EditFooterItem([Bind("PageCreateParentId,ContentType,FooterContent,FooterId")] FooterInfo footerInfo,
+                                                          string edit, string delete)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (!string.IsNullOrEmpty(delete))
+                {
+                    var footer = _context.FooterInfo
+                        .Where(pi => pi.FooterId == footerInfo.FooterId)
+                        .FirstOrDefault();
+                    _context.Remove(footer);
+                    await _context.SaveChangesAsync();
+                }
+                else if (!string.IsNullOrEmpty(edit))
+                {
+
+                    _context.Update(footerInfo);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Edit", new { id = footerInfo.PageCreateParentId });
+            }
+            return View();
+        }
 
         // GET: PageCreates/Delete/5
         [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -269,9 +305,8 @@ namespace CMSWebPageCreator.Controllers
 
         // POST: PageCreates/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Editor")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteHeaderItem(Guid id, [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
         {
             //var headerItem = await _context.HeaderInfo.FindAsync(pageCreate.Headers);

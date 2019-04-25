@@ -1,15 +1,15 @@
-﻿@model HeaderInfo
+﻿@model BodyInfo
 @{
-    ViewData["Title"] = "HeaderCreatePartial";
+    ViewData["Title"] = "BodyCreatePartial";
 }
 
-<h1>Add New Header</h1>
-<form asp-action="CreateHeaderItem">
+<h1>Add New Body Item</h1>
+<form asp-action="CreateBodyItem">
     <div class="form-indented">
 
-        <label asp-for="@Model.HeaderContent" class="control-label"></label>
-        <input asp-for="@Model.HeaderContent" class="form-control" />
-        <span asp-validation-for="@Model.HeaderContent" class="text-danger"></span>
+        <label asp-for="@Model.BodyContent" class="control-label"></label>
+        <input asp-for="@Model.BodyContent" class="form-control" />
+        <span asp-validation-for="@Model.BodyContent" class="text-danger"></span>
         <div class="form-group">
             <label asp-for="@Model.ContentType" class="control-label"></label>
             <input asp-for="@Model.ContentType" class="form-control" />
@@ -18,8 +18,7 @@
             <input type="hidden" value="@Model.PageCreateParentId" asp-for="PageCreateParentId" />
         </div>
         <div class="form-group">
-            <input type="submit" value="Create Header" class="btn btn-primary" />
+            <input type="submit" value="Create Body Item" class="btn btn-primary" />
         </div>
     </div>
 </form>
-

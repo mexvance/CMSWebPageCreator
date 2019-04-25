@@ -30,15 +30,19 @@
             {
                 <p>@item.HeaderContent</p>
             }
+            else if ((int)item.ContentType == 2) //We are an image
+            {
+                <img src="@item.HeaderContent" alt="Image"><img />
+            }
             else
             {
-                
+
                 <p>@item.HeaderContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
             }
         </div>
     }
-    <div>----------------------------------------------------------------------------------</div>
-    @*@foreach (var item in ViewBag.MyBody)
+    <hr />
+    @foreach (var item in Model.BodyItems)
     {
         <div>
             @if ((int)item.ContentType == 0)
@@ -49,14 +53,19 @@
             {
                 <p>@item.BodyContent</p>
             }
+            else if ((int)item.ContentType == 2) //We are an image
+            {
+                <img src="@item.BodyContent" alt="Image"><img />
+            }
             else
             {
+
                 <p>@item.BodyContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
             }
         </div>
     }
-    <div>----------------------------------------------------------------------------------</div>
-    @foreach (var item in ViewBag.MyFooter)
+    <hr />
+    @foreach (var item in Model.FooterItems)
     {
         <div>
             @if ((int)item.ContentType == 0)
@@ -67,12 +76,19 @@
             {
                 <p>@item.FooterContent</p>
             }
+            else if ((int)item.ContentType == 2) //We are an image
+            {
+                <img src="@item.FooterContent" alt="Image"><img />
+            }
             else
             {
-                <p>@item.FooterContenti - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
+
+                <p>@item.FooterContent - We broke</p>//We get here if we haven't handled the enumeration yet or if it failed to equal
             }
         </div>
-    }*@
+    }
+    <hr />
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.pageId">Edit</a> |
