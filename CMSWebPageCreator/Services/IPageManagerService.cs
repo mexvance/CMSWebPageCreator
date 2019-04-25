@@ -12,7 +12,7 @@ namespace CMSWebPageCreator.Services
         IEnumerable<PageCreate> GetPageList();
         bool DeletePage(Guid id);
         bool AddPage(PageCreate page);
-        PageViewModel GetPage(string name);
+        PageCreate GetPage(string name);
         bool AddHeaderItem(HeaderInfo content);
         bool DeleteHeaderItem(HeaderInfo item);
         bool AddBodyItem(BodyInfo content);

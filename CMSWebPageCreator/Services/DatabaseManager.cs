@@ -108,7 +108,7 @@ namespace CMSWebPageCreator.Services
         }
 
         //Find the page
-        public PageViewModel GetPage(string Title)
+        public PageCreate GetPage(string Title)
         {
             var page = _context.PageCreate
                 .Where(p => p.Title.ToLower() == Title.ToLower())
@@ -116,26 +116,27 @@ namespace CMSWebPageCreator.Services
                 .Include(p => p.Headers)
                 .Include(p => p.FooterItems)
                 .FirstOrDefault();
-            var pageViewModel = new PageViewModel
-            {
-                Id = page.pageId,
-                Title = page.Title,
-                contents = new List<IContent>()
-            };
-            foreach (var item in page.Headers)
-            {
-                pageViewModel.contents.Add(item);
-            }
-            foreach (var item in page.BodyItems)
-            {
-                pageViewModel.contents.Add(item);
-            }
-            foreach (var item in page.FooterItems)
-            {
-                pageViewModel.contents.Add(item);
-            }
-            //pageViewModel.contents = pageViewModel.contents.OrderBy(i => ).Reverse().ToList();
-            return pageViewModel;
+            /* var pageViewModel = new PageViewModel
+             {
+                 Id = page.pageId,
+                 Title = page.Title,
+                 contents = new List<IContent>()
+             };
+             foreach (var item in page.Headers)
+             {
+                 pageViewModel.contents.Add(item);
+             }
+             foreach (var item in page.BodyItems)
+             {
+                 pageViewModel.contents.Add(item);
+             }
+             foreach (var item in page.FooterItems)
+             {
+                 pageViewModel.contents.Add(item);
+             }
+             //pageViewModel.contents = pageViewModel.contents.OrderBy(i => ).Reverse().ToList();
+             return pageViewModel;*/
+            return page;
         }
 
         public IEnumerable<PageCreate> GetPageList()

@@ -31,23 +31,20 @@ namespace CMSWebPageCreator.Controllers
         }
 
         // GET: PageCreates/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(string permalink)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            ViewData["permalink"] = permalink;
 
             var pageCreate = await _context.PageCreate
-                .FirstOrDefaultAsync(m => m.pageId == id);
+                .FirstOrDefaultAsync(m => m.Title.ToLower() == permalink.ToLower());
             if (pageCreate == null)
             {
                 return NotFound();
             }
 
-            pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
-            pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
+            pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
+            pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
 
             return View(pageCreate);
         }

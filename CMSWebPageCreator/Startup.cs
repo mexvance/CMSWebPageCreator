@@ -21,6 +21,7 @@ namespace CMSWebPageCreator
 {
     public class Startup
     {
+        CmsUrlConstraint cmsUrlConstraint;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -41,7 +42,6 @@ namespace CMSWebPageCreator
             //services.AddDbContext<DbContext>(options =>
             //   options.UseSqlServer(
             //       Configuration.GetConnectionString("DefaultConnection")));
-
 
             services.AddScoped<IPageManagerService,DatabaseManager>();
             services.AddDbContext<DBContext>(options =>
@@ -65,8 +65,11 @@ namespace CMSWebPageCreator
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
+
+
+            cmsUrlConstraint = new CmsUrlConstraint(configuration);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,8 +92,15 @@ namespace CMSWebPageCreator
             {
                 routes.MapHub<ChatHub>("/chatHub");
             });
+
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "CmsRoute",
+                    template: "{*permalink}",
+                    defaults: new { controller = "PageCreates", action = "Details" },
+                    constraints: new { permalink = cmsUrlConstraint }
+                );
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
