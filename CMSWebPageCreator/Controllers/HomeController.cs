@@ -23,10 +23,20 @@ namespace CMSWebPageCreator.Controllers
             IRestResponse response = client.Execute(request);
             var content = response.Content;
             var jObject = JObject.Parse(content);
-            /*var myQuote = (string)jObject["contents"]["quotes"][0]["quote"];
-            var myQuoteAuthor = (string)jObject["contents"]["quotes"][0]["author"];
-            ViewData["quote"] = myQuote;
-            ViewData["author"] = myQuoteAuthor;*/
+            var errorCheck = jObject["error"];
+            if (errorCheck != null)
+            {
+                ViewData["quote"] = "We have exceeded our calls to the Quote API, Here's a quote from our sponsors: "
+                    ;
+                ViewData["author"] = " 'Mike is cool' - Mike Vance, Vance Refrigeration";
+                return View();
+            }
+            else { 
+                var myQuote = (string)jObject["contents"]["quotes"][0]["quote"];
+                var myQuoteAuthor = (string)jObject["contents"]["quotes"][0]["author"];
+                ViewData["quote"] = myQuote;
+                ViewData["author"] = myQuoteAuthor;
+            }
             return View();
 
         }
