@@ -133,11 +133,6 @@ namespace CMSWebPageCreator.Controllers
             return View(pageCreate);
         }
 
-
-        //Hey Add this function from here to here, that being the end of this function. Thanks
-        //Also do this for Header Footer, 
-        //Other things to look at (on the edit view, we should load a dropdown of the ContentType )
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Editor")]
@@ -305,12 +300,28 @@ namespace CMSWebPageCreator.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteHeaderItem(Guid id, [Bind("pageId,Title,MyHeader")] PageCreate pageCreate)
+        public async Task<IActionResult> DeletePage(Guid id, [Bind("pageId,Title")] PageCreate pageCreate)
         {
-            //var headerItem = await _context.HeaderInfo.FindAsync(pageCreate.Headers);
-            //_context.HeaderInfo.Remove(headerItem);
+
+            await _context.BodyInfo
+                .Where(pi => pi.PageCreateParentId == id)
+                .ForEachAsync(pi => _context.Remove(pi));
             await _context.SaveChangesAsync();
-            return RedirectToAction("Edit", new { id = pageCreate.pageId });
+
+            await _context.HeaderInfo
+                .Where(pi => pi.PageCreateParentId == id)
+                .ForEachAsync(pi => _context.Remove(pi));
+            await _context.SaveChangesAsync();
+
+            await _context.FooterInfo
+                .Where(pi => pi.PageCreateParentId == id)
+                .ForEachAsync(pi => _context.Remove(pi));
+            await _context.SaveChangesAsync();
+
+            _context.PageCreate.Remove(_context.PageCreate.Find(id));
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
         private bool PageCreateExists(Guid id)

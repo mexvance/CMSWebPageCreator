@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CMSWebPageCreator.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CMSWebPageCreator.Controllers
@@ -15,11 +16,13 @@ namespace CMSWebPageCreator.Controllers
         {
             this.dBContext = dBContext;
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult DetailDB(string searchString)
         {
 

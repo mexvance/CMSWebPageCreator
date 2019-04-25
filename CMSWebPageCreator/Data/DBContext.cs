@@ -23,12 +23,6 @@ namespace CMSWebPageCreator.Models
                 .HasMany(p => p.BodyItems);
             modelBuilder.Entity<PageCreate>()
                 .HasMany(p => p.FooterItems);
-            //modelBuilder.Entity<PageCreate>()
-            //    .HasMany(p => p.Headers);
-            //modelBuilder.Entity<PageCreate>()
-            //    .HasMany(p => p.Headers);
-
-
         }
 
         public DbSet<CMSWebPageCreator.Models.BodyInfo> BodyInfo { get; set; }

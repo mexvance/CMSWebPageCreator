@@ -21,40 +21,40 @@
     </div>
 </form>
 <hr>
-@Html.Partial("HeaderCreatePartial", new HeaderInfo() { PageCreateParentId = Model.pageId })
+@{await Html.RenderPartialAsync("HeaderCreatePartial", new HeaderInfo() { PageCreateParentId = Model.pageId });}
 
 <div><h2>Edit Existing Headers</h2></div>
 @foreach (var item in Model.Headers)
 {
-    @Html.Partial("HeaderEditPartial", item);
+    await Html.RenderPartialAsync("HeaderEditPartial", item);
 }
 <hr>
 
-@Html.Partial("BodyCreatePartial", new BodyInfo() { PageCreateParentId = Model.pageId })
+@{await Html.RenderPartialAsync("BodyCreatePartial", new BodyInfo() { PageCreateParentId = Model.pageId });}
 
-@if (Model.BodyItems.Count > 0)
+@if(Model.BodyItems.Count > 0)
 {
-    <div><h2>Edit Existing Body Items</h2></div>
+<div><h2>Edit Existing Body Items</h2></div>
 }
 @foreach (var item in Model.BodyItems)
 {
-    @Html.Partial("BodyEditPartial", item);
+    await Html.RenderPartialAsync("BodyEditPartial", item);
 }
-<hr>
-@Html.Partial("FooterCreatePartial", new FooterInfo() { PageCreateParentId = Model.pageId })
-@if (Model.FooterItems.Count > 0)
+    <hr>
+@{await Html.RenderPartialAsync("FooterCreatePartial", new FooterInfo() { PageCreateParentId = Model.pageId });}
+@if(Model.FooterItems.Count > 0)
 {
-    <div><h2>Edit Existing Footer Items</h2></div>
+    <div><h2>Edit Existing Footer Items</h2></div>       
 }
 @foreach (var item in Model.FooterItems)
 {
-    @Html.Partial("FooterEditPartial", item);
+    await Html.RenderPartialAsync("FooterEditPartial", item);
 }
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
