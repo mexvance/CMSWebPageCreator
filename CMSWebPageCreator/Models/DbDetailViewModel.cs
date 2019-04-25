@@ -8,5 +8,6 @@ namespace CMSWebPageCreator.Models
     public class DbDetailViewModel
     {
         public int PageCount { get; set; }
+        public int SearchCount { get; set; }
     }
 }
