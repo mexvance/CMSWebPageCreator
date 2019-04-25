@@ -32,19 +32,19 @@
 
 @{await Html.RenderPartialAsync("BodyCreatePartial", new BodyInfo() { PageCreateParentId = Model.pageId });}
 
-@if(Model.BodyItems.Count > 0)
+@if (Model.BodyItems.Count > 0)
 {
-<div><h2>Edit Existing Body Items</h2></div>
+    <div><h2>Edit Existing Body Items</h2></div>
 }
 @foreach (var item in Model.BodyItems)
 {
     await Html.RenderPartialAsync("BodyEditPartial", item);
 }
-    <hr>
+<hr>
 @{await Html.RenderPartialAsync("FooterCreatePartial", new FooterInfo() { PageCreateParentId = Model.pageId });}
-@if(Model.FooterItems.Count > 0)
+@if (Model.FooterItems.Count > 0)
 {
-    <div><h2>Edit Existing Footer Items</h2></div>       
+    <div><h2>Edit Existing Footer Items</h2></div>
 }
 @foreach (var item in Model.FooterItems)
 {

@@ -92,6 +92,21 @@
         </div>
     }
     <hr />
+    @{
+        ViewBag.Layer = 0;
+    }
+
+    <div id="topComment">
+        @Html.Partial("comment", ((List<Comment>)ViewBag.Comments).Where(c => c.ParentId == null).ToList())
+    </div>
+    <br />
+
+    @{
+        //if (ViewBag.userId != null)
+        {
+            @Html.Partial("NewComment", new Comment() { PostId = Model.Title, ParentId = null, UserId = ViewBag.userId })
+        }
+    }
 
 </div>
 <div>

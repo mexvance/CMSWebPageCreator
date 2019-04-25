@@ -45,6 +45,7 @@ namespace CMSWebPageCreator.Controllers
             pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
             pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
             pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == pageCreate.pageId).ToListAsync();
+            ViewBag.Comments = await _context.Comment.Where(c => c.PostId.ToLower() == pageCreate.Title.ToLower()).ToListAsync();
 
             return View(pageCreate);
         }
@@ -93,6 +94,7 @@ namespace CMSWebPageCreator.Controllers
             pageCreate.Headers = await _context.HeaderInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
             pageCreate.BodyItems = await _context.BodyInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
             pageCreate.FooterItems = await _context.FooterInfo.Where(c => c.PageCreateParentId == id).ToListAsync();
+            ViewBag.Comments = await _context.Comment.Where(c => c.PostId.ToLower() == pageCreate.Title.ToLower()).ToListAsync();
 
             return View(pageCreate);
         }
@@ -327,6 +329,20 @@ namespace CMSWebPageCreator.Controllers
         private bool PageCreateExists(Guid id)
         {
             return _context.PageCreate.Any(e => e.pageId == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> CreateComment([Bind("Id,UserId,Time,ParentId,Content,PostId")] Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = comment.PostId });
+            }
+            return View(comment);
         }
     }
 }

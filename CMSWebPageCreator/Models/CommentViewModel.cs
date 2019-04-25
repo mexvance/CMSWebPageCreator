@@ -7,5 +7,8 @@ namespace CMSWebPageCreator.Models
 {
     public class CommentViewModel
     {
+        public int PostId { get; set; }
+        public int? ParentComment { get; set; }
+
     }
 }
