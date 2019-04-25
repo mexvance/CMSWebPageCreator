@@ -1,0 +1,24 @@
+﻿@*@model List<Comment>
+@{
+    string marg = ((int)ViewBag.Layer * 2) + "em";
+    ViewBag.Layer = (int)ViewBag.Layer + 1;
+}
+
+<div style="margin-left: 3em;">
+    @foreach (var c in Model)
+    {
+        <div>
+            <p>@c.Content</p>
+            <div class="childrenComments">
+                @Html.Partial("comment", ((List<Comment>)ViewBag.Comments).Where(com => com.ParentId == c.Id).ToList())
+            </div>
+        </div>
+
+        if (ViewBag.userId != null)
+        {
+            @Html.Partial("NewComment", new Comment() { PostId = c.PostId, ParentId = c.Id, UserId = ViewBag.userId })
+        }
+    }
+
+</div>*@
+
