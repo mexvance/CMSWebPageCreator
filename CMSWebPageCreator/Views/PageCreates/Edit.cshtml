@@ -4,14 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>PageCreate</h4>
+<h1>Edit-@Model.Title</h1>
 <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="pageId" />
     <div class="form-group">
-        <label asp-for="Title" class="control-label"></label>
+        <h4><label asp-for="Title" class="control-label">Edit Title</label></h4>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
@@ -51,9 +49,10 @@
     await Html.RenderPartialAsync("FooterEditPartial", item);
 }
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a class="btn btn-dark" asp-action="Index">Back to List</a>
+        <a class="btn btn-dark" href="/@Model.Title">View Page</a>
+    </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -10,7 +10,10 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="jumbotron jumbotron-fluid bg- text-center"><h1>Existing Pages</h1></div>
+<div class="jumbotron jumbotron-fluid bg-dark rounded text-center">
+    <h1 class="text-white">Existing Pages</h1>
+    <p class="text-white">View your favorite pages created by The Best CMS</p>
+</div>
 <div class="form-group text-center">
     @if (canAdd)
     {<a asp-action="Create" class="btn btn-dark">Create New Page</a>}

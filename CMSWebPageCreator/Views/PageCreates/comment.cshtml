@@ -12,6 +12,7 @@
             <div class="childrenComments">
                 @Html.Partial("comment", ((List<Comment>)ViewBag.Comments).Where(com => com.ParentId == c.Id).ToList())
             </div>
+            <hr />
         </div>
 
         if (ViewBag.userId != null)

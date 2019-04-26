@@ -44,6 +44,8 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  background-image: url(/cloud.jpg);
+  background-size:cover;
 }
 .footer {
   position: absolute;
