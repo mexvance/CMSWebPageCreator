@@ -5,25 +5,25 @@
 }
 
 
-<h1>DataBase Details</h1>
+<div class="jumbotron text-center bg-dark text-white"><h1>DataBase Details</h1></div>
 <br />
-<table style="width:100%">
+<div class="form-group">
+    <table style="width:100%" class="bg-light p-2">
     <tr>
         <th>Number of Pages</th>
         <th>Number of Pages With a specific letter</th>
 
     </tr>
-    <tr></tr>
     <tr><td>@Model.PageCount</td>
     <td>@Model.SearchCount</td>
     <td></td></tr>
 
 </table>
-
+</div>
 
 <form asp-action="DetailDB" asp-controller="DetailsController">
-       <input name="searchString"  placeholder="Search Value"/>
+       <input class="form-group" name="searchString"  placeholder="Search Value"/>
     <div class="form-group">
-        <input type="submit" value="searchString" class="btn btn-dark" />
+        <input class="form-group btn btn-dark" type="submit" value="searchString"/>
     </div>
 </form>

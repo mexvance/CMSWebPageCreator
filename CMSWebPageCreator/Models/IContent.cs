@@ -32,7 +32,7 @@ namespace CMSWebPageCreator.Models
         public BodyStyleType ContentType { get; set; }
     }
 
-    public enum BodyStyleType { Title, BodyText, Image, ImageLink, ImageDescription, TextLink }
-    public enum FooterStyleType { FooterText, Image, ImageLink, ImageDescription, TextLink }
-    public enum HeaderStyleType { Title, HeaderText, Image, ImageLink, ImageDescription, TextLink }
+    public enum BodyStyleType { Title, BodyText, ImageAddress}
+    public enum FooterStyleType {Title, FooterText}
+    public enum HeaderStyleType { Title, HeaderText}
 }

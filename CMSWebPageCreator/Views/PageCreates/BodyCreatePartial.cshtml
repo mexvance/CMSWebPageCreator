@@ -12,9 +12,12 @@
         <span asp-validation-for="@Model.BodyContent" class="text-danger"></span>
         <div class="form-group">
             <label asp-for="@Model.ContentType" class="control-label"></label>
-            <input asp-for="@Model.ContentType" class="form-control" />
+            <select asp-for="@Model.ContentType" class="form-control">
+                <option value="0">Title</option>
+                <option value="1">Body Text</option>
+                <option value="2">Image Address</option>
+            </select>
             <span asp-validation-for="@Model.ContentType" class="text-danger"></span>
-
             <input type="hidden" value="@Model.PageCreateParentId" asp-for="PageCreateParentId" />
         </div>
         <div class="form-group">
