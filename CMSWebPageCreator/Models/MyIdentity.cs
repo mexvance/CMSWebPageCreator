@@ -28,7 +28,7 @@ namespace CMSWebPageCreator
                 }
             }
 
-            foreach (var userName in new[] { "admin@snow.edu", "editor@snow.edu", "contributor@snow.edu" })
+            foreach (var userName in new[] { "admin@snow.edu", "adminsteve@snow.edu", "editor@snow.edu", "contributor@snow.edu" })
             {
                 var user = userManager.FindByNameAsync(userName).Result;
                 if (user == null)
